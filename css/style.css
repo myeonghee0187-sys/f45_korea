@@ -21,7 +21,8 @@
   --page-bg: #eef0f1;
 }
 
-html, body {
+html,
+body {
   font-family: "Pretendard", "Noto Sans KR", -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
   color: var(--ink);
@@ -33,13 +34,25 @@ body {
   justify-content: center;
 }
 
+.header {
+  display: flex;
+  height: 100px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.logo {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+}
+
 .site {
   width: 100%;
-  max-width: 430px;
-  background: #fff;
-  min-height: 100vh;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+  max-width: 1920px;
+  background: var(--Color-Primary-Teal-20, rgba(0, 139, 163, 0.20));
 }
 
 a {
@@ -65,22 +78,12 @@ img {
   border-bottom: 1px solid #f0f0f0;
 }
 
-.logo {
-  font-weight: 800;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-}
-
-.logo span {
-  color: var(--purple-4);
-}
 
 .nav {
   display: flex;
-  gap: 12px;
-  font-size: 10px;
-  color: var(--gray);
-  letter-spacing: -0.01em;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
 }
 
 /* ---------- Hero ---------- */
@@ -110,12 +113,10 @@ img {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(10, 15, 30, 0.92) 0%,
-    rgba(10, 15, 30, 0.35) 55%,
-    rgba(10, 15, 30, 0.55) 100%
-  );
+  background: linear-gradient(to top,
+      rgba(10, 15, 30, 0.92) 0%,
+      rgba(10, 15, 30, 0.35) 55%,
+      rgba(10, 15, 30, 0.55) 100%);
 }
 
 .hero-badge {
@@ -212,12 +213,36 @@ img {
   line-height: 1.4;
 }
 
-.collage-item.c1 { left: 0; top: 0; }
-.collage-item.c2 { left: 110px; top: 46px; }
-.collage-item.c3 { left: 10px; top: 130px; }
-.collage-item.c4 { left: 120px; top: 176px; }
-.collage-item.c5 { left: 20px; top: 250px; }
-.collage-item.c6 { left: 130px; top: 20px; display: none; }
+.collage-item.c1 {
+  left: 0;
+  top: 0;
+}
+
+.collage-item.c2 {
+  left: 110px;
+  top: 46px;
+}
+
+.collage-item.c3 {
+  left: 10px;
+  top: 130px;
+}
+
+.collage-item.c4 {
+  left: 120px;
+  top: 176px;
+}
+
+.collage-item.c5 {
+  left: 20px;
+  top: 250px;
+}
+
+.collage-item.c6 {
+  left: 130px;
+  top: 20px;
+  display: none;
+}
 
 /* ---------- Teal marquee ---------- */
 .marquee-band {
@@ -247,8 +272,13 @@ img {
 }
 
 @keyframes scroll-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* ---------- Branch badges ---------- */
@@ -393,12 +423,29 @@ img {
   opacity: 0.85;
 }
 
-.step-1 { background: linear-gradient(135deg, var(--purple-1), var(--purple-2)); }
-.step-2 { background: linear-gradient(135deg, var(--purple-2), var(--purple-3)); }
-.step-3 { background: linear-gradient(135deg, var(--purple-3), var(--purple-4)); }
-.step-4 { background: linear-gradient(135deg, var(--purple-4), var(--purple-5)); }
-.step-5 { background: linear-gradient(135deg, var(--purple-5), var(--purple-6)); }
-.step-6 { background: linear-gradient(135deg, var(--purple-6), #241c66); }
+.step-1 {
+  background: linear-gradient(135deg, var(--purple-1), var(--purple-2));
+}
+
+.step-2 {
+  background: linear-gradient(135deg, var(--purple-2), var(--purple-3));
+}
+
+.step-3 {
+  background: linear-gradient(135deg, var(--purple-3), var(--purple-4));
+}
+
+.step-4 {
+  background: linear-gradient(135deg, var(--purple-4), var(--purple-5));
+}
+
+.step-5 {
+  background: linear-gradient(135deg, var(--purple-5), var(--purple-6));
+}
+
+.step-6 {
+  background: linear-gradient(135deg, var(--purple-6), #241c66);
+}
 
 /* ---------- App / phone mockup ---------- */
 .app-section {
@@ -453,7 +500,9 @@ img {
   grid-template-rows: repeat(6, 1fr);
 }
 
-.qr-grid span { background: #14213d; }
+.qr-grid span {
+  background: #14213d;
+}
 
 .app-copy {
   margin-top: 22px;
