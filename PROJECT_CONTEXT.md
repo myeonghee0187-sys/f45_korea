@@ -4,17 +4,26 @@
 
 ## 구현 완료
 
-- index.html, style.css 초안: 헤더, 히어로, WHAT F45 KOREA, 마퀴 밴드, 지점 배지, 지점 찾기(검색+지도), 이용 절차(6단계), 앱 다운로드, 푸터 섹션 구조
-- AGENTS.md의 기술 스택·검증 명령 섹션을 실제 프로젝트(빌드 도구 없는 정적 HTML/CSS/JS) 기준으로 채움
-- CLAUDE.md 생성(@AGENTS.md 임포트 + Claude Code 전용 규칙)
+- `index.html` 전면 재작성: 헤더, 히어로(체험권 신청 CTA 포함), WHY F45 KOREA(intro_k/o/r/e/a.jpg 5장, K-O-R-E-A 순서), 마퀴(확인된 문구 "누구나 시작할 수 있어요 · F45 KOREA"), 이번 PHASE 7카드(phase_pipline·lonestar·docklands·fusion·thenines·west·angrybird.jpg), 지점 찾기(도시 드롭다운 + 검색 + 주변 매장 찾기 + 지점 6곳 리스트 + map.jpg), 입문자 케어 가이드 01~06(보라색 알파 단계), 앱 설치(phone01~06.png 캐러셀 + 인디케이터), 푸터(대표자·사업자등록번호·소셜 5종·메뉴·저작권)
+- `css/style.css` 전면 재작성: `:root` 토큰을 design-analysis.md 확인값(teal #008ba3, lavender #5b5ceb, bg #f8f9fa, text #0a0913 등)으로 교체, `@font-face`로 Pretendard(woff2)·Montserrat(ttf) 로컬 폰트 연결, 버튼/카드/라운드 값을 확인된 스펙으로 반영, hover/focus-visible/active/disabled 상태 신규 추가, `prefers-reduced-motion` 대응 추가
+- `js/app.js` 신규 작성: 도시 드롭다운(열기/닫기/선택/외부클릭·Escape 닫기), 지점 검색+도시 필터 결합 필터링, 검색어 없을 때 검색 버튼 disabled, 주변 매장 찾기(필터 초기화), 트라이얼 앱 6단계 캐러셀(좌우 화살표+인디케이터 dot 클릭)
+- 모든 클래스/아이디를 snake_case로 통일(기존 kebab-case 잔재 정리)
 
 ## 구현 중
 
-- 없음
+- 없음(이번 라운드 범위 내 작업 완료)
 
-## 확정된 UX 정책
+## 확정된 UX 정책 (이번 세션에서 사용자 확인)
 
-- 없음(design-analysis.md "아직 확인하지 못한 내용" 참고 — 메뉴 활성 표시, 버튼 hover/focus/disabled, 캐러셀·마퀴 트리거 방식 모두 미확정)
+- 반응형: **이번 라운드는 1280px(PC)만 구현**. 360px 모바일은 Figma 모바일 프레임 완성 후 별도 진행, 768px 태블릿은 범위 제외(PRD 14장의 360/768 전체 반응형 요구와 별개로 이번 작업 범위에서 사용자가 명시적으로 축소 결정)
+- hover/focus/active/disabled: 디자인에 정의 없음 → 브랜드 컬러(teal/lavender) 기준으로 직접 설계해 구현(사용자 승인)
+- 지점 검색 결과 없음(빈 상태) UI: 별도 확인 전까지 미구현 — 현재는 필터링 로직만 동작하고 결과 0건이면 리스트가 비어 보임(안내 문구 없음)
+- 마퀴/캐러셀 트랜지션: 마퀴는 기존 26s linear 유지, 캐러셀은 기본 즉시 전환(트랜지션 애니메이션 없음)으로 구현
+- 소셜 아이콘: 5개(utube·facebook·twitter·instagram·in) 확정, design-analysis.md의 "6개" 서술은 부정확했던 것으로 확인
+- "상세페이지 보기" 버튼: 실제 이동 없이 UI만(버튼 요소, 클릭 핸들러 없음)
+- 헤더 햄버거/로그인: UI만 존재, 열림/닫힘 등 실제 토글 기능 없음
+- 푸터 주소/전화/이메일: 확인된 사실 없음 → 원래 없는 정보이므로 넣지 않음(대표자·사업자등록번호만 표기)
+- JS 파일 구조: `js/app.js`를 실제로 사용(인라인 스크립트 대신 분리 파일), `css/common.css`/`css/pages.css`/`js/storage.js`는 이번 랜딩 작업 범위에서는 비워둔 채 유지(추후 다른 페이지 작업 시 사용 예정)
 
 ## 사용 중인 라이브러리
 
@@ -22,29 +31,27 @@
 
 ## 저장 데이터
 
-- 없음(localStorage 미사용)
+- 없음(localStorage 미사용, 도시/검색 필터는 세션 내 DOM 상태로만 유지)
 
-## 알려진 문제
+## 알려진 문제 / 남은 확인 사항
 
-- index.html의 이미지 경로가 실제 img/ 폴더 파일명과 다름(예: `pipeline.jpg`, `westhollywood.jpg`, `docklands.jpg` 등 → 실제 파일은 `img/phase_pipline.jpg`, `img/phase_west.jpg`, `img/phase_docklands.jpg` 등) → 브라우저에서 이미지가 깨짐
-- "지점 라인업" 배지가 6개(West Hollywood·Fusion·Docklands·Lonestar·The Nines·Pipeline)뿐이라 design-analysis.md에서 확인된 PHASE 카드 7개(ANGRYBIRD 포함) 구성과 다름
-- "WHAT F45 KOREA" collage가 실제 img_korea 5장(intro_a/e/r/k/o.jpg, K-O-R-E-A 순서) 대신 linear-gradient placeholder로 대체되어 있음
-- "지점 찾기" 지도가 실제 `img/map.jpg` 대신 인라인 SVG placeholder이고, 확인된 실제 지점 6곳(교대·역삼·신사·청담·강남·보라매) 리스트가 없음
-- 푸터가 확인된 실제 정보(대표자 김예진/Maier Joseph Robert, 사업자등록번호 811-86-01984, 소셜 아이콘 5종 이미지)가 아닌 임의 placeholder 주소·텍스트로 채워져 있음
-- 앱 다운로드 섹션이 실제 phone01~06.png 스크린샷·6단계 캐러셀 대신 CSS로 그린 가짜 QR 코드로 대체되어 있음
-- style.css의 색상·폰트·간격·라운드 값이 design-analysis.md 디자인 토큰과 일치하는지 아직 항목별로 대조하지 않음
-- 모바일(360px)·태블릿(768px) 레이아웃 미확인(Figma 원본 노드가 PC 1920px 전용이라 별도 확인 필요 — design-analysis.md에도 동일하게 명시된 미해결 사항)
+- **Figma 재확인 필요**: 이번 세션은 Figma MCP 인증이 불가능해 design-analysis.md(이전 세션 기록)만으로 작업함. 특히 히어로 영역(배경 이미지·정확한 카피 배치), PHASE 섹션 제목 카피, 가이드 03단계("식사") 설명 문구는 design-analysis.md에 정확한 값이 없어 임의로 작성함 — Figma 재인증 후 원본과 대조 필요
+- **브라우저 실측 미실시**: 이번 환경에 Node.js·Python 실행 파일이 없어 로컬 서버 구동 및 브라우저 콘솔 확인을 하지 못함. 대신 (1) HTML에서 참조하는 모든 이미지·폰트 경로가 실제 파일과 일치하는지 파일시스템으로 전수 확인 완료, (2) HTML 태그 구조를 육안으로 재검토함. **실제 브라우저에서 콘솔 오류, 시각적 렌더링, 키보드 포커스 이동은 아직 확인되지 않았습니다.**
+- 360px·768px 레이아웃 없음(위 "확정된 UX 정책" 참고, 사용자 결정으로 이번 범위 제외)
+- 가이드 섹션의 "좌측 타이틀 sticky + 우측 카드 쌓임" 스크롤 연출은 구현하지 않음(design-analysis.md도 추정으로만 기록, 이번 세션에서 별도 확인/지시 없었음) — 현재는 세로 목록으로만 표시
+- guide 카드 "우측 상단 128px 숫자" 스펙은 폰트 크기 96px로 근사 구현(940px 카드 폭 대비 128px 숫자가 비율상 과도하게 커 보여 시각적으로 조정 — Figma 재확인 시 정확한 값으로 교체 필요)
 
 ## 다음 작업
 
-1. index.html을 design-analysis.md에서 확인된 사실 기준으로 재작성(실제 이미지 경로, PHASE 카드 7개, 실제 지점 6곳, 실제 푸터 정보)
-2. style.css를 디자인 토큰(색상·폰트·간격·라운드·그림자) 값과 항목별로 대조
-3. 360px·768px·1280px 기준 반응형 확인 및 수정
-4. hover·focus·disabled 등 디자인에 없는 상태는 임의 구현하지 않고 사용자에게 확인 후 진행
+1. Figma 재인증 후 히어로·PHASE 제목 카피·가이드 03단계 문구·guide 카드 숫자 크기를 원본과 대조
+2. Node/Python 등 실행 환경이 있는 곳에서 `index.html`을 열어 콘솔 오류, 1280px 레이아웃, 키보드 Tab 순서·focus-visible을 실측 검증
+3. 360px 모바일 Figma 프레임이 나오면 반응형 레이아웃 추가 구현
+4. 지점 검색 빈 상태 UI 디자인 확정되면 반영
 
 ## 마지막 검증 결과
 
-- 실행 명령: 없음(이번 세션은 AGENTS.md·CLAUDE.md 문서 정리만 진행, index.html 변경 없음)
-- 결과: 미실시
-- 확인 화면: 미실시(360px/768px/1280px 모두 미확인)
-- 확인하지 못한 부분: "알려진 문제" 전체 항목
+- 실행 명령: 파일시스템 기준 에셋 경로 전수 대조(`assets/icons`, `assets/imges`, `assets/fonts` 실제 파일과 HTML/CSS 참조 경로 일치 확인 — 전부 OK), `node --check`는 Node 미설치로 실행 불가
+- 브라우저 렌더링/콘솔 오류: **미실시**(이번 실행 환경에 Node.js·Python 인터프리터가 없어 로컬 서버를 띄우지 못함)
+- 360px/768px/1280px 화면 비교: **미실시**(1280px 레이아웃은 코드 작성은 완료했으나 육안 확인 안 됨, 360/768은 사용자 결정으로 이번 범위 제외)
+- 키보드 Tab 순서·focus-visible: **미실시**
+- 확인하지 못한 부분: 위 "알려진 문제 / 남은 확인 사항" 전체
