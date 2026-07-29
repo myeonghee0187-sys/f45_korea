@@ -10,7 +10,7 @@
 
   <!-- Header -->
   <header class="header" id="header">
-    <div class="logo"><img src="./assets/icons/logo_1.svg" alt="F45 Korea"></div>
+    <div class="logo"><img src="./assets/icons/logo.svg" alt="F45 Korea"></div>
     <nav class="nav">
       <a class="nav_link" href="#story">F45 KOREA</a>
       <a class="nav_link" href="#locator">지점 찾기</a>
@@ -24,12 +24,7 @@
 
   <!-- Hero -->
   <section class="hero" id="hero">
-    <div class="hero_collage">
-      <img src="./assets/imges/phase_pipline.jpg" alt="" />
-      <img src="./assets/imges/phase_fusion.jpg" alt="" />
-      <img src="./assets/imges/phase_thenines.jpg" alt="" />
-    </div>
-    <div class="hero_badge">F45<br />KOREA</div>
+    <video class="hero_video" src="./assets/imges/hero.mp4" poster="./assets/imges/hero_poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
     <div class="hero_body">
       <h1 class="hero_title">Team Training<br />Life Changing</h1>
       <button type="button" class="hero_cta">체험권 신청하기</button>
@@ -43,30 +38,40 @@
       <h2 class="section_title">다섯 글자에 담긴, 우리가 다른 이유</h2>
 
       <div class="korea_grid">
-        <div class="korea_card is_odd">
-          <div class="thumb"><img src="./assets/imges/intro_k.jpg" alt="K" /></div>
-          <p class="letter">K</p>
-          <p class="name">KINETIC TRAINING</p>
+        <div class="korea_row korea_row_k">
+          <div class="korea_photo"><img src="./assets/imges/intro_k.jpg" alt="KINETIC TRAINING" /></div>
+          <div class="korea_text">
+            <p class="korea_text_tit">KINETIC TRAINING</p>
+            <p class="korea_text_desc">과학 기반 기능성 트레이닝<br />근육과 심혈관 건강을 동시에 개선</p>
+          </div>
         </div>
-        <div class="korea_card is_even">
-          <div class="thumb"><img src="./assets/imges/intro_o.jpg" alt="O" /></div>
-          <p class="letter">O</p>
-          <p class="name">OPTIMIZED 45 MIN</p>
+        <div class="korea_row korea_row_o">
+          <div class="korea_text">
+            <p class="korea_text_tit">OPTIMIZED 45 MIN</p>
+            <p class="korea_text_desc">하루 45분, 가장 효율적인 트레이닝<br />세션당 최대 750kcal 소모</p>
+          </div>
+          <div class="korea_photo"><img src="./assets/imges/intro_o.jpg" alt="OPTIMIZED 45 MIN" /></div>
         </div>
-        <div class="korea_card is_odd">
-          <div class="thumb"><img src="./assets/imges/intro_r.jpg" alt="R" /></div>
-          <p class="letter">R</p>
-          <p class="name">RELATIONSHIPS</p>
+        <div class="korea_row korea_row_r">
+          <div class="korea_photo"><img src="./assets/imges/intro_r.jpg" alt="RELATIONSHIPS" /></div>
+          <div class="korea_text">
+            <p class="korea_text_tit">RELATIONSHIPS</p>
+            <p class="korea_text_desc">단순 피트니스 시설이 아닌<br />함께 격려하고 성장하는 관계</p>
+          </div>
         </div>
-        <div class="korea_card is_even">
-          <div class="thumb"><img src="./assets/imges/intro_e.jpg" alt="E" /></div>
-          <p class="letter">E</p>
-          <p class="name">EXPERT COACHES</p>
+        <div class="korea_row korea_row_e">
+          <div class="korea_text">
+            <p class="korea_text_tit">EXPERT COACHES</p>
+            <p class="korea_text_desc">전문 자격을 갖춘 모든 코치와<br />개개인의 필요에 맞춘 케어 제공</p>
+          </div>
+          <div class="korea_photo"><img src="./assets/imges/intro_e.jpg" alt="EXPERT COACHES" /></div>
         </div>
-        <div class="korea_card is_odd">
-          <div class="thumb"><img src="./assets/imges/intro_a.jpg" alt="A" /></div>
-          <p class="letter">A</p>
-          <p class="name">ADAPTIVE PROGRAM</p>
+        <div class="korea_row korea_row_a">
+          <div class="korea_photo"><img src="./assets/imges/intro_a.jpg" alt="ADAPTIVE PROGRAM" /></div>
+          <div class="korea_text">
+            <p class="korea_text_tit">ADAPTIVE PROGRAM</p>
+            <p class="korea_text_desc">5,000개 이상의 동작으로<br />매 세션 새로운 운동을 경험</p>
+          </div>
         </div>
       </div>
     </div>
@@ -301,7 +306,7 @@
 
   <!-- Footer -->
   <footer class="footer" id="footer">
-    <div class="footer_logo"><img src="./assets/icons/logo_1.svg" alt="F45 Korea"></div>
+    <div class="footer_logo"><img src="./assets/icons/logo.svg" alt="F45 Korea"></div>
     <div class="footer_social">
       <a href="#"><img src="./assets/icons/utube.png" alt="유튜브" /></a>
       <a href="#"><img src="./assets/icons/facebook.png" alt="페이스북" /></a>

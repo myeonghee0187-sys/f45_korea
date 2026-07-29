@@ -136,6 +136,10 @@ button:disabled {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  .hero_video {
+    display: none;
+  }
 }
 
 .wrap {
@@ -169,8 +173,13 @@ button:disabled {
   background: var(--color-teal-20);
 }
 
+.logo {
+  padding: 10px;
+}
+
 .logo img {
-  height: 32px;
+  width: 75px;
+  height: 57px;
 }
 
 .nav {
@@ -214,21 +223,23 @@ button:disabled {
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  height: 520px;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   background: linear-gradient(135deg, #1c2b4a 0%, #223a5e 45%, #2f5a63 100%);
 }
 
-.hero_collage {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  opacity: 0.55;
-  filter: saturate(0.9);
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    background-image: url("../assets/imges/hero_poster.jpg");
+    background-size: cover;
+    background-position: center;
+  }
 }
 
-.hero_collage img {
+.hero_video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -244,39 +255,21 @@ button:disabled {
       rgba(10, 15, 30, 0.55) 100%);
 }
 
-.hero_badge {
-  position: absolute;
-  top: 32px;
-  right: 40px;
-  width: 84px;
-  height: 84px;
-  border-radius: 50%;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-title);
-  font-weight: 900;
-  font-size: 16px;
-  color: var(--color-text);
-  z-index: 2;
-  text-align: center;
-  line-height: 1.2;
-}
-
 .hero_body {
   position: absolute;
-  left: 40px;
+  left: 50%;
   bottom: 48px;
+  transform: translateX(-50%);
   z-index: 2;
   color: #fff;
+  text-align: center;
 }
 
 .hero_title {
   font-family: var(--font-title);
-  font-size: 48px;
-  font-weight: 800;
-  line-height: 1.25;
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 1.3;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
@@ -334,56 +327,100 @@ button:disabled {
 }
 
 /* ---------- WHY F45 KOREA ---------- */
+#story {
+  background: linear-gradient(168deg,
+      #f4fafb 3.7%,
+      #f5f6fd 40.6%,
+      #f4f2fb 68.3%,
+      #f2f6fa 96%);
+}
+
+#story .eyebrow {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: normal;
+  color: var(--color-text);
+}
+
+#story .section_title {
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
 .korea_grid {
   margin-top: 56px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.korea_row {
+  display: flex;
+  align-items: center;
   gap: 40px;
 }
 
-.korea_card {
-  width: 220px;
-  text-align: center;
-}
-
-.korea_card.is_odd {
-  transform: rotate(-2deg);
-}
-
-.korea_card.is_even {
-  transform: rotate(2deg);
-}
-
-.korea_card .thumb {
-  width: 220px;
-  height: 220px;
+.korea_photo {
+  flex-shrink: 0;
+  width: 400px;
+  height: 400px;
   border-radius: var(--radius-img-korea);
   overflow: hidden;
 }
 
-.korea_card .thumb img {
+.korea_photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.korea_card .letter {
-  margin-top: 16px;
+.korea_text_tit {
   font-family: var(--font-title);
-  font-weight: 800;
+  font-weight: 500;
   font-size: 20px;
-  color: var(--color-lavender);
+  color: var(--color-text);
 }
 
-.korea_card .name {
-  margin-top: 4px;
-  font-family: var(--font-title);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+.korea_text_desc {
+  margin-top: 8px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.3;
   color: var(--color-text);
-  opacity: 0.75;
+}
+
+.korea_row_k {
+  transform: rotate(2deg);
+}
+
+.korea_row_o {
+  justify-content: flex-end;
+  transform: rotate(-2deg);
+}
+
+.korea_row_o .korea_text {
+  text-align: right;
+}
+
+.korea_row_r {
+  padding-left: 60px;
+  transform: rotate(-2deg);
+}
+
+.korea_row_e {
+  justify-content: flex-end;
+  padding-right: 100px;
+  transform: rotate(2deg);
+}
+
+.korea_row_e .korea_text {
+  text-align: right;
+}
+
+.korea_row_a {
+  transform: rotate(2deg);
 }
 
 /* ---------- Teal marquee ---------- */
@@ -875,7 +912,8 @@ button:disabled {
 }
 
 .footer_logo img {
-  height: 28px;
+  width: 75px;
+  height: 57px;
   margin: 0 auto;
 }
 
