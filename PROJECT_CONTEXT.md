@@ -1,6 +1,6 @@
 # F45 코리아 랜딩 페이지 현재 상태
 
-마지막 업데이트: 2026-07-29
+마지막 업데이트: 2026-07-30
 
 ## 구현 완료
 
@@ -8,6 +8,20 @@
 - `css/style.css` 전면 재작성: `:root` 토큰을 design-analysis.md 확인값(teal #008ba3, lavender #5b5ceb, bg #f8f9fa, text #0a0913 등)으로 교체, `@font-face`로 Pretendard(woff2)·Montserrat(ttf) 로컬 폰트 연결, 버튼/카드/라운드 값을 확인된 스펙으로 반영, hover/focus-visible/active/disabled 상태 신규 추가, `prefers-reduced-motion` 대응 추가
 - `js/app.js` 신규 작성: 도시 드롭다운(열기/닫기/선택/외부클릭·Escape 닫기), 지점 검색+도시 필터 결합 필터링, 검색어 없을 때 검색 버튼 disabled, 주변 매장 찾기(필터 초기화), 트라이얼 앱 6단계 캐러셀(좌우 화살표+인디케이터 dot 클릭)
 - 모든 클래스/아이디를 snake_case로 통일(기존 kebab-case 잔재 정리)
+- **2026-07-30**: 로고 파일 교체(`assets/icons/logo_1.svg` 삭제 → `logo.svg` 신규) 대응, 헤더/푸터 `index.html`의 로고 참조를 `logo.svg`로 수정
+- **2026-07-30**: Figma MCP 재인증 후 헤더(`node 632:378`)·히어로(`node 632:394`) 원본을 실측 대조해 아래 불일치를 수정
+  - 헤더/푸터 로고 크기가 실측(75×57px)보다 작게(헤더 32px, 푸터 28px 높이) 렌더링되던 문제 수정 → `css/style.css`의 `.logo`, `.logo img`, `.footer_logo img`를 75×57px + 10px 패딩(헤더)으로 교체
+  - 히어로 배경을 3분할 이미지 콜라주(phase_pipline/fusion/thenines.jpg)에서 실제 디자인대로 풀블리드 단일 배경으로 교체하고, 새로 업로드된 `assets/imges/hero.mp4`를 배경 영상으로 반영(`autoplay muted loop playsinline`, `prefers-reduced-motion: reduce`에서 숨김 처리)
+  - 디자인에 없던 원형 "F45/KOREA" 배지(`hero_badge`)를 제거(Figma 원본에 해당 요소 없음 확인)
+  - 히어로 타이틀 폰트 크기를 실측값 88px로, 텍스트/버튼 정렬을 좌측→하단 중앙으로 수정(Figma 원본이 중앙 정렬)
+- **2026-07-30**: 히어로 영상 코덱 문제 및 접근성 폴백 보완
+  - 업로드된 `hero.mp4`가 확장자만 mp4이고 실제로는 QuickTime 컨테이너(`ftyp qt`)라 대부분 브라우저에서 재생되지 않던 문제를 발견 → macOS `avconvert`(PresetPassthrough)로 코덱 재인코딩 없이 표준 MP4 컨테이너(`ftyp mp42/isom`)로 리먹싱해 교체(코덱 H.264/AAC, 해상도 1620×1080 그대로 유지)
+  - `hero.mp4`에서 정지 프레임을 추출해 `assets/imges/hero_poster.jpg` 신규 생성 → `<video poster>`로 연결하고, `prefers-reduced-motion: reduce`일 때 `.hero` 배경 이미지로도 사용(이전엔 빈 그라데이션만 보여 동작 줄이기 사용자에게 아무 이미지도 안 보이던 문제 개선)
+  - CSS 버그 수정: reduced-motion용 `.hero` 배경 규칙을 앞쪽 미디어쿼리 블록에 넣었더니 뒤에 나오는 `.hero { background: ... }` 규칙에 밀려 무시되던 문제 → `.hero` 규칙 뒤에 별도 미디어쿼리로 재배치해 해결
+- **2026-07-30**: WHY F45 KOREA 섹션(`node 632:400`)을 Figma와 실측 대조해 전면 수정
+  - 220px 균등 그리드 + K/O/R/E/A 대형 글자 배지 구조(디자인에 없던 요소)를 제거하고, 400×400px 대형 사진 5장이 좌우 지그재그로 배치되고 각 사진 옆에 제목+2줄 설명이 나란히 놓이는 실제 구조로 교체(`korea_row_k/o/r/e/a`)
+  - 각 카드의 2줄 설명 문구(예: "과학 기반 기능성 트레이닝 / 근육과 심혈관 건강을 동시에 개선" 등 5세트)를 Figma에서 새로 확인해 추가 — 기존엔 이 문구들이 HTML에 전혀 없었음
+  - 사진/텍스트 카드별 회전(K:2deg, O:-2deg, R:-2deg, E:2deg, A:2deg), 행간 간격(4px), 섹션 배경 대각선 그라데이션, 타이틀 크기(영문 30px/한글 20px, 기존엔 반대로 되어 있었음)를 실측값으로 수정
 
 ## 구현 중
 
@@ -35,23 +49,24 @@
 
 ## 알려진 문제 / 남은 확인 사항
 
-- **Figma 재확인 필요**: 이번 세션은 Figma MCP 인증이 불가능해 design-analysis.md(이전 세션 기록)만으로 작업함. 특히 히어로 영역(배경 이미지·정확한 카피 배치), PHASE 섹션 제목 카피, 가이드 03단계("식사") 설명 문구는 design-analysis.md에 정확한 값이 없어 임의로 작성함 — Figma 재인증 후 원본과 대조 필요
-- **브라우저 실측 미실시**: 이번 환경에 Node.js·Python 실행 파일이 없어 로컬 서버 구동 및 브라우저 콘솔 확인을 하지 못함. 대신 (1) HTML에서 참조하는 모든 이미지·폰트 경로가 실제 파일과 일치하는지 파일시스템으로 전수 확인 완료, (2) HTML 태그 구조를 육안으로 재검토함. **실제 브라우저에서 콘솔 오류, 시각적 렌더링, 키보드 포커스 이동은 아직 확인되지 않았습니다.**
+- **Figma 재확인 완료(헤더·히어로·WHY F45 KOREA)**: `node 632:378`(header), `node 632:394`(hero), `node 632:400`(WHY F45 KOREA)를 실측 대조 완료. PHASE 섹션 제목 카피, 지점 찾기, 가이드 03단계("식사") 설명 문구, 트라이얼, 푸터 등 나머지 섹션은 아직 대조하지 않았으므로 확인 필요.
+- **브라우저 실측 방법 변경**: 이번 환경엔 여전히 chromium-cli·Playwright가 없지만, 사용자 PC의 실제 Chrome(VS Code Live Server, `127.0.0.1:5500`)을 macOS `osascript`(Chrome을 새 탭/URL로 열기)와 `screencapture`로 직접 캡처해 시각적으로 확인하는 방식을 이번 라운드에 사용함. Apple Events를 통한 JS 실행은 Chrome/Safari 모두 기본적으로 막혀 있어 `console.error` 등은 이 방법으로 직접 읽지 못함(콘솔 탭을 스크린샷으로 열어보는 방식으로 우회 가능하나 이번엔 레이아웃 확인에 집중함).
+- 히어로 배경 비디오: 실제 Chrome에서 자동재생되는 것까지 스크린샷(연속 캡처 프레임이 서로 다름)으로 확인함.
+- WHY F45 KOREA 각 행의 정확한 픽셀 오프셋(Figma의 `pl-20`, `pl-60`, `pr-100` 등 절대 좌표)은 근사치로 구현함 — 디자인 자체가 카드마다 손으로 배치한 듯한 "느슨한" 레이아웃이라 완전히 동일한 px까지는 맞추지 않았음, 필요시 정밀 조정 가능.
 - 360px·768px 레이아웃 없음(위 "확정된 UX 정책" 참고, 사용자 결정으로 이번 범위 제외)
 - 가이드 섹션의 "좌측 타이틀 sticky + 우측 카드 쌓임" 스크롤 연출은 구현하지 않음(design-analysis.md도 추정으로만 기록, 이번 세션에서 별도 확인/지시 없었음) — 현재는 세로 목록으로만 표시
 - guide 카드 "우측 상단 128px 숫자" 스펙은 폰트 크기 96px로 근사 구현(940px 카드 폭 대비 128px 숫자가 비율상 과도하게 커 보여 시각적으로 조정 — Figma 재확인 시 정확한 값으로 교체 필요)
 
 ## 다음 작업
 
-1. Figma 재인증 후 히어로·PHASE 제목 카피·가이드 03단계 문구·guide 카드 숫자 크기를 원본과 대조
-2. Node/Python 등 실행 환경이 있는 곳에서 `index.html`을 열어 콘솔 오류, 1280px 레이아웃, 키보드 Tab 순서·focus-visible을 실측 검증
+1. Figma 재확인 범위를 나머지 섹션(PHASE, 지점 찾기, 가이드, 트라이얼, 푸터)으로 확장해 카피·수치 대조
+2. 키보드 Tab 순서·focus-visible, 콘솔 에러(F12로 직접) 확인 — Apple Events 경로로는 콘솔 로그를 못 읽으므로 사용자가 직접 개발자 도구를 열어 확인하는 편이 정확함
 3. 360px 모바일 Figma 프레임이 나오면 반응형 레이아웃 추가 구현
 4. 지점 검색 빈 상태 UI 디자인 확정되면 반영
 
 ## 마지막 검증 결과
 
-- 실행 명령: 파일시스템 기준 에셋 경로 전수 대조(`assets/icons`, `assets/imges`, `assets/fonts` 실제 파일과 HTML/CSS 참조 경로 일치 확인 — 전부 OK), `node --check`는 Node 미설치로 실행 불가
-- 브라우저 렌더링/콘솔 오류: **미실시**(이번 실행 환경에 Node.js·Python 인터프리터가 없어 로컬 서버를 띄우지 못함)
-- 360px/768px/1280px 화면 비교: **미실시**(1280px 레이아웃은 코드 작성은 완료했으나 육안 확인 안 됨, 360/768은 사용자 결정으로 이번 범위 제외)
-- 키보드 Tab 순서·focus-visible: **미실시**
+- 실행 명령: 파일시스템 기준 에셋 경로 전수 대조(전부 OK), `avmediainfo`로 hero.mp4 코덱 확인(H.264/AAC), 사용자 실제 Chrome(Live Server 5500)을 `osascript`+`screencapture`로 캡처해 헤더 로고 크기·히어로 영상 재생·WHY F45 KOREA 레이아웃을 시각적으로 직접 확인함
+- 360px/768px 화면 비교: **미실시**(사용자 결정으로 이번 범위 제외), 1280px은 스크린샷으로 확인
+- 키보드 Tab 순서·focus-visible, 콘솔 에러 로그: **미실시**(Apple Events로 JS 실행이 막혀 있어 화면 캡처로는 확인 불가 — 사용자가 직접 F12로 확인 필요)
 - 확인하지 못한 부분: 위 "알려진 문제 / 남은 확인 사항" 전체
