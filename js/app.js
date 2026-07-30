@@ -117,60 +117,57 @@
     }
   }
 
-  function initAppCarousel() {
-    var image = document.getElementById("carousel_image");
-    var currentLabel = document.getElementById("carousel_current");
-    var dots = document.querySelectorAll(".carousel_dot");
-    var prevBtn = document.getElementById("carousel_prev");
-    var nextBtn = document.getElementById("carousel_next");
+  function initPhaseManualScroll() {
+    var track = document.querySelector(".phase_grid");
 
-    if (!image || !currentLabel || dots.length === 0) {
+    if (!track) {
       return;
     }
 
-    var totalSlides = dots.length;
-    var currentIndex = 0;
+    var isDragging = false;
+    var dragStartX = 0;
+    var dragStartScrollLeft = 0;
 
-    function renderSlide() {
-      var slideNumber = currentIndex + 1;
-      var paddedNumber = slideNumber < 10 ? "0" + slideNumber : String(slideNumber);
-
-      image.src = "./assets/imges/phone" + paddedNumber + ".png";
-      image.alt = "F45 앱 화면 " + slideNumber;
-      currentLabel.textContent = paddedNumber;
-
-      dots.forEach(function (dot, index) {
-        dot.classList.toggle("is_active", index === currentIndex);
-      });
+    function handlePhaseWheel(event) {
+      if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+        track.scrollLeft += event.deltaY;
+        event.preventDefault();
+      }
     }
 
-    function goToSlide(index) {
-      currentIndex = (index + totalSlides) % totalSlides;
-      renderSlide();
+    function handlePhasePointerDown(event) {
+      if (event.pointerType !== "mouse") {
+        return;
+      }
+      isDragging = true;
+      dragStartX = event.clientX;
+      dragStartScrollLeft = track.scrollLeft;
+      track.classList.add("is_dragging");
+      event.preventDefault();
     }
 
-    if (prevBtn) {
-      prevBtn.addEventListener("click", function () {
-        goToSlide(currentIndex - 1);
-      });
+    function handlePhasePointerMove(event) {
+      if (!isDragging) {
+        return;
+      }
+      track.scrollLeft = dragStartScrollLeft - (event.clientX - dragStartX);
     }
 
-    if (nextBtn) {
-      nextBtn.addEventListener("click", function () {
-        goToSlide(currentIndex + 1);
-      });
+    function handlePhasePointerUp() {
+      isDragging = false;
+      track.classList.remove("is_dragging");
     }
 
-    dots.forEach(function (dot) {
-      dot.addEventListener("click", function () {
-        goToSlide(Number(dot.dataset.index));
-      });
-    });
+    track.addEventListener("wheel", handlePhaseWheel, { passive: false });
+    track.addEventListener("pointerdown", handlePhasePointerDown);
+    track.addEventListener("pointermove", handlePhasePointerMove);
+    track.addEventListener("pointerup", handlePhasePointerUp);
+    track.addEventListener("pointerleave", handlePhasePointerUp);
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     initCityDropdown();
     initLocatorSearch();
-    initAppCarousel();
+    initPhaseManualScroll();
   });
 })();
