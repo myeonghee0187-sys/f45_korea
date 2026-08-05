@@ -59,7 +59,12 @@
 
 ## 다음 작업
 
-1. Figma 재확인 범위를 나머지 섹션(PHASE, 지점 찾기, 가이드, 트라이얼, 푸터)으로 확장해 카피·수치 대조
+1. **[대기 중] `#app`(트라이얼) 섹션 Figma 재구현**: 사용자가 `#app` 섹션 구현을 요청했으나(2026-07-30), 이 세션에서 Figma MCP(claude.ai 커넥터) 인증이 안 돼 있어 실측을 못 했음 — 사용자가 "Figma 재인증 후 다시 요청" 선택. 재인증 후 [node-id 632-377](https://www.figma.com/design/xYrHj7h7ULDihhqhQmSrX2/%EC%86%A1%EB%AA%85%ED%9D%AC?node-id=632-377&m=dev) 프레임에서 트라이얼 섹션을 실측 대조해 구현할 것.
+   - 현재 코드(`index.html` `#app`, `css/style.css` `.trial_*`)와 `design-analysis.md`(39·44·49·50·60행)에 기존에 기록된 확인 사실이 서로 다름을 발견함:
+     - 현재 구현: "앱 설치 방법 1~6단계" 텍스트 리스트 + 겹친 폰 이미지 2장(`phone_landing.png`, `phone_reservation.png`), 스토어 버튼·캐러셀 없음
+     - `design-analysis.md` 기록: "F45 - Korea (new) 모바일 앱 설치 / 설치는 1분이면 충분해요" 문구로 시작하는 6장 캐러셀(`phone01~06.png`, 좌우 화살표 `left.png`/`right.png`, 인디케이터 01/06 — 활성 32×16 teal pill, 비활성 16×16 `#ddd` 원) + App/Play Store 버튼(`apple.png`/`playstore.png`, border `#008ba3`, 직각, 50×144px)
+     - 이 불일치의 원인(추정으로 짠 초기 버전 vs 이후 Figma 재확인 기록)은 미확인 — 재인증 후 Figma 원본으로 최종 확인 필요
+2. Figma 재확인 범위를 나머지 섹션(PHASE, 지점 찾기, 가이드, 푸터)으로 확장해 카피·수치 대조
 2. 키보드 Tab 순서·focus-visible, 콘솔 에러(F12로 직접) 확인 — Apple Events 경로로는 콘솔 로그를 못 읽으므로 사용자가 직접 개발자 도구를 열어 확인하는 편이 정확함
 3. 360px 모바일 Figma 프레임이 나오면 반응형 레이아웃 추가 구현
 4. 지점 검색 빈 상태 UI 디자인 확정되면 반영
