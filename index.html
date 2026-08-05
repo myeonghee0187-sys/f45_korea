@@ -323,19 +323,24 @@
   <section class="section" id="app">
     <div class="trial_inner">
       <div class="trial_row">
-        <div class="trial_phone">
-          <img src="./assets/images/phone01.png" alt="F45 앱 실행 화면 1" id="trial_phone_img" />
+        <div class="trial_phone" id="trial_phone">
+          <img src="./assets/images/phone01.png" alt="F45 앱 실행 화면 1" class="trial_phone_slide is_active" />
+          <img src="./assets/images/phone02.png" alt="F45 앱 실행 화면 2" class="trial_phone_slide" />
+          <img src="./assets/images/phone03.png" alt="F45 앱 실행 화면 3" class="trial_phone_slide" />
+          <img src="./assets/images/phone04.png" alt="F45 앱 실행 화면 4" class="trial_phone_slide" />
+          <img src="./assets/images/phone05.png" alt="F45 앱 실행 화면 5" class="trial_phone_slide" />
+          <img src="./assets/images/phone06.png" alt="F45 앱 실행 화면 6" class="trial_phone_slide" />
         </div>
 
-        <div class="trial_right">
+        <div class="trial_right" id="trial_right">
           <p class="trial_num">
             <span class="trial_num_current" id="trial_num_current">01</span><span class="trial_num_slash">/</span><span class="trial_num_total">06</span>
           </p>
           <div class="trial_txt">
-            <p class="trial_txt_title">F45 - Korea (new) 모바일 앱 설치</p>
-            <p class="trial_txt_desc">설치는 1분이면 충분해요</p>
+            <p class="trial_txt_title" id="trial_txt_title">F45 - Korea (new) 모바일 앱 설치</p>
+            <p class="trial_txt_desc" id="trial_txt_desc">설치는 1분이면 충분해요</p>
           </div>
-          <div class="trial_store_buttons">
+          <div class="trial_store_buttons" id="trial_store_buttons">
             <a class="trial_store_btn" href="#">
               <img src="./assets/icons/apple.png" alt="" />
               <span>App Store</span>
@@ -345,6 +350,7 @@
               <span>Play Store</span>
             </a>
           </div>
+          <button type="button" class="trial_cta is_hidden" id="trial_cta">체험권 신청하기</button>
         </div>
       </div>
 

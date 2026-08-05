@@ -971,27 +971,83 @@ button:disabled {
 
 .trial_row {
   display: flex;
-  align-items: center;
+  /* Figma 실측: trial_right가 phone(570px) 높이만큼 늘어난 뒤 그 안에서
+     콘텐츠가 위쪽부터 채워지는 구조(중앙 정렬 아님) — 그래서 phone과 나란히
+     "중앙 정렬"이 아니라 "늘림"으로 맞춰야 01·06단계뿐 아니라 02~05단계도
+     동일하게 상단에 붙음 */
+  align-items: stretch;
   gap: 120px;
 }
 
 .trial_phone {
+  position: relative;
   flex-shrink: 0;
   width: 282px;
   height: 570px;
+  overflow: hidden;
 }
 
-.trial_phone img {
+.trial_phone_slide {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  z-index: 1;
+}
+
+.trial_phone_slide.is_active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
 }
 
 .trial_right {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: flex-start;
   gap: 100px;
+  /* trial_row의 align-items:stretch로 phone과 같은 570px 높이가 되고,
+     이 안에서 콘텐츠는 항상 위쪽부터 채워짐(01~06단계 전부 동일) */
+  height: 100%;
+  overflow: hidden;
+  /* "들어올 때"(제자리로 슬라이드 인) 기준 트랜지션 — 왼쪽 폰 크로스페이드(0.9s)의
+     대부분과 겹치도록 0.75s를 씀. 나가는 쪽은 아래 .is_sliding_out_*에서 짧게 덮어씀 */
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+
+/* 슬라이드 전환 중 나가는 방향(다음=왼쪽으로, 이전=오른쪽으로) — 폰 크로스페이드와
+   같은 순간(t=0)에 시작하되, 텍스트는 "내용"을 바꿔치기해야 해서 최대한 짧게(0.15s)
+   빠져나가고, 남은 시간(0.75s)을 전부 "들어오는" 쪽에 써서 폰이 계속 서서히 나타나는
+   동안 텍스트도 함께 서서히 자리 잡도록 맞춤(총 0.15+0.75=0.9s로 폰과 동일) */
+.trial_right.is_sliding_out_left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.trial_right.is_sliding_out_right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* 내용이 바뀐 직후 트랜지션 없이 반대편에서 대기시켰다가(is_sliding_in_*)
+   JS가 클래스를 떼면 위 .trial_right 기본 트랜지션(0.75s)으로 자연스럽게 들어옴 */
+.trial_right.is_sliding_in_left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: none;
+}
+
+.trial_right.is_sliding_in_right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: none;
 }
 
 .trial_num {
@@ -1069,6 +1125,29 @@ button:disabled {
   color: var(--color-text);
 }
 
+.trial_store_buttons.is_hidden,
+.trial_cta.is_hidden {
+  display: none;
+}
+
+.trial_cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 64px;
+  border: none;
+  background: var(--color-teal);
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.trial_cta:hover {
+  background: var(--color-teal-dark);
+}
+
 .trial_indicator {
   display: flex;
   align-items: center;
@@ -1104,6 +1183,7 @@ button:disabled {
   border-radius: 50px;
   padding: 0;
   background: var(--color-indicator);
+  transition: width 0.3s ease, background-color 0.3s ease;
 }
 
 .trial_dot.is_active {
