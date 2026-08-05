@@ -165,9 +165,58 @@
     track.addEventListener("pointerleave", handlePhasePointerUp);
   }
 
+  function initTrialCarousel() {
+    var phoneImg = document.getElementById("trial_phone_img");
+    var numCurrent = document.getElementById("trial_num_current");
+    var dots = document.querySelectorAll(".trial_dot");
+    var prevBtn = document.getElementById("trial_arrow_left");
+    var nextBtn = document.getElementById("trial_arrow_right");
+
+    if (!phoneImg || !numCurrent || dots.length === 0 || !prevBtn || !nextBtn) {
+      return;
+    }
+
+    var totalSlides = dots.length;
+    var currentIndex = 0;
+
+    function renderSlide(index) {
+      currentIndex = index;
+      var slideNumber = String(index + 1).padStart(2, "0");
+
+      phoneImg.src = "./assets/images/phone" + slideNumber + ".png";
+      phoneImg.alt = "F45 앱 실행 화면 " + (index + 1);
+      numCurrent.textContent = slideNumber;
+
+      dots.forEach(function (dot, dotIndex) {
+        var isActive = dotIndex === index;
+        dot.classList.toggle("is_active", isActive);
+        dot.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+    }
+
+    function goToSlide(index) {
+      renderSlide((index + totalSlides) % totalSlides);
+    }
+
+    dots.forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        goToSlide(Number(dot.dataset.index));
+      });
+    });
+
+    prevBtn.addEventListener("click", function () {
+      goToSlide(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener("click", function () {
+      goToSlide(currentIndex + 1);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initCityDropdown();
     initLocatorSearch();
     initPhaseManualScroll();
+    initTrialCarousel();
   });
 })();

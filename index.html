@@ -157,27 +157,27 @@
 
   <!-- Locator -->
   <section class="section" id="locator">
-    <div class="wrap">
+    <div class="locator_inner">
       <p class="eyebrow">지점 찾기</p>
       <h2 class="section_title">지친 일상 속 F45와 함께</h2>
 
       <div class="locator_controls">
-        <div class="locator_search_group">
-          <div class="city_dropdown" id="city_dropdown">
-            <button type="button" class="city_dropdown_toggle" id="city_dropdown_toggle" aria-haspopup="true" aria-expanded="false">
-              <span id="city_dropdown_label">도시 선택</span>
-              <img src="./assets/icons/down.png" alt="" />
-            </button>
-            <div class="city_dropdown_list" id="city_dropdown_list" role="menu">
-              <button type="button" class="city_dropdown_item is_selected" data-city="전체" role="menuitem">전체</button>
-              <button type="button" class="city_dropdown_item" data-city="서울" role="menuitem">서울</button>
-              <button type="button" class="city_dropdown_item" data-city="경기" role="menuitem">경기</button>
-              <button type="button" class="city_dropdown_item" data-city="광역" role="menuitem">광역</button>
-              <button type="button" class="city_dropdown_item" data-city="충청" role="menuitem">충청</button>
-              <button type="button" class="city_dropdown_item" data-city="남부" role="menuitem">남부</button>
-            </div>
+        <div class="city_dropdown" id="city_dropdown">
+          <button type="button" class="city_dropdown_toggle" id="city_dropdown_toggle" aria-haspopup="true" aria-expanded="false">
+            <span id="city_dropdown_label">도시 선택</span>
+            <img src="./assets/icons/down.png" alt="" />
+          </button>
+          <div class="city_dropdown_list" id="city_dropdown_list" role="menu">
+            <button type="button" class="city_dropdown_item is_selected" data-city="전체" role="menuitem">전체</button>
+            <button type="button" class="city_dropdown_item" data-city="서울" role="menuitem">서울</button>
+            <button type="button" class="city_dropdown_item" data-city="경기" role="menuitem">경기</button>
+            <button type="button" class="city_dropdown_item" data-city="광역" role="menuitem">광역</button>
+            <button type="button" class="city_dropdown_item" data-city="충청" role="menuitem">충청</button>
+            <button type="button" class="city_dropdown_item" data-city="남부" role="menuitem">남부</button>
           </div>
+        </div>
 
+        <div class="locator_search_wrap">
           <form class="locator_search" id="locator_search_form">
             <div class="locator_search_field">
               <img src="./assets/icons/search.png" alt="" class="locator_search_icon" />
@@ -186,11 +186,11 @@
             </div>
             <button type="submit" class="locator_search_btn" id="locator_search_btn" disabled>검색</button>
           </form>
-        </div>
 
-        <button type="button" class="btn_fill_purple" id="locator_nearby_btn">
-          <img src="./assets/icons/location.png" alt="" />주변 매장 찾기
-        </button>
+          <button type="button" class="btn_fill_purple" id="locator_nearby_btn">
+            <img src="./assets/icons/location.png" alt="" />주변 매장 찾기
+          </button>
+        </div>
       </div>
 
       <div class="locator_body">
@@ -322,44 +322,47 @@
   <!-- App -->
   <section class="section" id="app">
     <div class="trial_inner">
-      <div class="trial_left">
-        <h2 class="trial_tit">F45 Korea (new) 만나보기</h2>
-        <ol class="trial_steps">
-          <li class="trial_step">
-            <span class="trial_num">1</span>
-            <p>F45 - Korea (new) 모바일 어플 설치</p>
-          </li>
-          <li class="trial_step">
-            <span class="trial_num">2</span>
-            <p>수강을 원하는 지점 검색</p>
-          </li>
-          <li class="trial_step">
-            <span class="trial_num">3</span>
-            <p>회원가입 또는 로그인</p>
-          </li>
-          <li class="trial_step">
-            <span class="trial_num">4</span>
-            <p>하단에 멤버십 탭 클릭</p>
-          </li>
-          <li class="trial_step">
-            <span class="trial_num">5</span>
-            <p>상단 크레딧 구매에서 체험권 구매</p>
-          </li>
-          <li class="trial_step">
-            <span class="trial_num">6</span>
-            <p>예약하기 버튼 클릭</p>
-          </li>
-        </ol>
-        <button type="button" class="trial_cta">체험권 신청하기</button>
+      <div class="trial_row">
+        <div class="trial_phone">
+          <img src="./assets/images/phone01.png" alt="F45 앱 실행 화면 1" id="trial_phone_img" />
+        </div>
+
+        <div class="trial_right">
+          <p class="trial_num">
+            <span class="trial_num_current" id="trial_num_current">01</span><span class="trial_num_slash">/</span><span class="trial_num_total">06</span>
+          </p>
+          <div class="trial_txt">
+            <p class="trial_txt_title">F45 - Korea (new) 모바일 앱 설치</p>
+            <p class="trial_txt_desc">설치는 1분이면 충분해요</p>
+          </div>
+          <div class="trial_store_buttons">
+            <a class="trial_store_btn" href="#">
+              <img src="./assets/icons/apple.png" alt="" />
+              <span>App Store</span>
+            </a>
+            <a class="trial_store_btn" href="#">
+              <img src="./assets/icons/playstore.png" alt="" />
+              <span>Play Store</span>
+            </a>
+          </div>
+        </div>
       </div>
 
-      <div class="trial_phones">
-        <div class="trial_phone trial_phone_landing">
-          <img src="./assets/images/phone_landing.png" alt="F45 앱 실행 화면" />
+      <div class="trial_indicator">
+        <button type="button" class="trial_arrow trial_arrow_left" id="trial_arrow_left" aria-label="이전 화면 보기">
+          <img src="./assets/icons/left.png" alt="" />
+        </button>
+        <div class="trial_dots" id="trial_dots" role="tablist" aria-label="앱 설치 안내 화면">
+          <button type="button" class="trial_dot is_active" data-index="0" role="tab" aria-selected="true" aria-label="1번째 화면"></button>
+          <button type="button" class="trial_dot" data-index="1" role="tab" aria-selected="false" aria-label="2번째 화면"></button>
+          <button type="button" class="trial_dot" data-index="2" role="tab" aria-selected="false" aria-label="3번째 화면"></button>
+          <button type="button" class="trial_dot" data-index="3" role="tab" aria-selected="false" aria-label="4번째 화면"></button>
+          <button type="button" class="trial_dot" data-index="4" role="tab" aria-selected="false" aria-label="5번째 화면"></button>
+          <button type="button" class="trial_dot" data-index="5" role="tab" aria-selected="false" aria-label="6번째 화면"></button>
         </div>
-        <div class="trial_phone trial_phone_reservation">
-          <img src="./assets/images/phone_reservation.png" alt="F45 앱 예약 화면" />
-        </div>
+        <button type="button" class="trial_arrow trial_arrow_right" id="trial_arrow_right" aria-label="다음 화면 보기">
+          <img src="./assets/icons/right.png" alt="" />
+        </button>
       </div>
     </div>
   </section>
