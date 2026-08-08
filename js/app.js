@@ -5,20 +5,24 @@
     var dropdown = document.getElementById("city_dropdown");
     var toggle = document.getElementById("city_dropdown_toggle");
     var label = document.getElementById("city_dropdown_label");
+    var icon = document.getElementById("city_dropdown_icon");
     var items = document.querySelectorAll(".city_dropdown_item");
 
-    if (!dropdown || !toggle || !label || items.length === 0) {
+    if (!dropdown || !toggle || !label || !icon || items.length === 0) {
       return;
     }
 
+    // Figma(node 755:640): 닫힘 상태(city_close) = 아래쪽 화살표, 열림 상태(city) = 위쪽 화살표
     function closeDropdown() {
       dropdown.classList.remove("is_open");
       toggle.setAttribute("aria-expanded", "false");
+      icon.src = "./assets/icons/down.png";
     }
 
     function openDropdown() {
       dropdown.classList.add("is_open");
       toggle.setAttribute("aria-expanded", "true");
+      icon.src = "./assets/icons/up.png";
     }
 
     toggle.addEventListener("click", function () {
@@ -36,7 +40,8 @@
           other.classList.remove("is_selected");
         });
         item.classList.add("is_selected");
-        label.textContent = "도시 선택 · " + item.dataset.city;
+        // Figma 버튼 라벨은 선택 상태와 무관하게 "도시 선택" 고정 문구(width 146px 고정) —
+        // 선택된 도시는 목록 안의 강조 항목으로 보여줌
         closeDropdown();
         applyBranchFilter(item.dataset.city);
       });
@@ -86,13 +91,6 @@
       return;
     }
 
-    function handleInputChange() {
-      searchBtn.disabled = input.value.trim() === "";
-    }
-
-    input.addEventListener("input", handleInputChange);
-    handleInputChange();
-
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       applyBranchFilter(getSelectedCity());
@@ -101,16 +99,11 @@
     if (nearbyBtn) {
       nearbyBtn.addEventListener("click", function () {
         input.value = "";
-        handleInputChange();
 
         var items = document.querySelectorAll(".city_dropdown_item");
         items.forEach(function (item) {
           item.classList.toggle("is_selected", item.dataset.city === "전체");
         });
-        var label = document.getElementById("city_dropdown_label");
-        if (label) {
-          label.textContent = "도시 선택 · 전체";
-        }
 
         applyBranchFilter("전체");
       });
@@ -331,10 +324,28 @@
     startAutoplay();
   }
 
+  // 로고는 href="#header"만으로도 대부분 동작하지만, 헤더가 position:sticky라
+  // 이미 화면에 계속 보이는 상태라 브라우저가 "이미 보임"으로 판단해 조금만
+  // 움직이는 경우가 있었음 — JS로 확실하게 맨 위(scrollY 0)까지 이동시킴
+  function initLogoScrollTop() {
+    var logo = document.querySelector(".logo");
+
+    if (!logo) {
+      return;
+    }
+
+    logo.addEventListener("click", function (event) {
+      event.preventDefault();
+      var isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: isReducedMotion ? "auto" : "smooth" });
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initCityDropdown();
     initLocatorSearch();
     initPhaseManualScroll();
     initTrialCarousel();
+    initLogoScrollTop();
   });
 })();

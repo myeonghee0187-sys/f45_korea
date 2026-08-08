@@ -4,18 +4,37 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>F45 Korea</title>
+
+<!-- 기본 SEO -->
+<meta name="description" content="바쁜 현대 사회 속 45분 안에 기능성 트레이닝을 경험!" />
+<meta name="keywords" content="피트니스, 크로스핏, 운동, 라이프스타일" />
+<meta name="author" content="Myeonghee" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<link rel="canonical" href="https://myeonghee0187-sys.github.io/f45_korea/" />
+<meta name="theme-color" content="#f6c84f" />
+
+<!-- 파비콘 세트 -->
+<link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg" />
+<link rel="icon" href="./favicon/favicon.ico" sizes="48x48" />
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32.png" />
+<link rel="apple-touch-icon" href="./favicon/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="./favicon/icon-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="./favicon/icon-512.png" />
+<link rel="manifest" href="./favicon/site.webmanifest" />
+
 <link rel="stylesheet" href="./css/style.css"/>
 </head>
 <body>
 
   <!-- Header -->
   <header class="header" id="header">
-    <div class="logo"><img src="./assets/icons/logo.svg" alt="F45 Korea"></div>
+    <a class="logo" href="#header"><img src="./assets/icons/logo.svg" alt="F45 Korea"></a>
     <nav class="nav">
       <a class="nav_link" href="#story">F45 KOREA</a>
       <a class="nav_link" href="#locator">지점 찾기</a>
-      <a class="nav_link" href="#hero">체험권</a>
-      <a class="nav_link" href="#">로그인</a>
+      <a class="nav_link" href="#guide">체험권</a>
+      <button type="button" class="nav_link" id="login_trigger">로그인</button>
       <button type="button" class="menu_toggle" aria-label="메뉴 열기">
         <img src="./assets/icons/ham.png" alt="ham">
       </button>
@@ -27,7 +46,7 @@
     <video class="hero_video" src="./assets/images/hero.mp4" poster="./assets/images/hero_poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
     <div class="hero_body">
       <h1 class="hero_title">Team Training<br />Life Changing</h1>
-      <button type="button" class="hero_cta">체험권 신청하기</button>
+      <button type="button" class="hero_cta" id="hero_cta">체험권 신청하기</button>
     </div>
   </section>
 
@@ -165,10 +184,10 @@
         <div class="city_dropdown" id="city_dropdown">
           <button type="button" class="city_dropdown_toggle" id="city_dropdown_toggle" aria-haspopup="true" aria-expanded="false">
             <span id="city_dropdown_label">도시 선택</span>
-            <img src="./assets/icons/down.png" alt="" />
+            <img src="./assets/icons/down.png" alt="" id="city_dropdown_icon" />
           </button>
           <div class="city_dropdown_list" id="city_dropdown_list" role="menu">
-            <button type="button" class="city_dropdown_item is_selected" data-city="전체" role="menuitem">전체</button>
+            <button type="button" class="city_dropdown_item" data-city="전체" role="menuitem">전체</button>
             <button type="button" class="city_dropdown_item" data-city="서울" role="menuitem">서울</button>
             <button type="button" class="city_dropdown_item" data-city="경기" role="menuitem">경기</button>
             <button type="button" class="city_dropdown_item" data-city="광역" role="menuitem">광역</button>
@@ -184,7 +203,7 @@
               <label for="locator_search_input" class="sr_only">지점명 또는 주소 검색</label>
               <input type="text" class="locator_search_input" id="locator_search_input" placeholder="지점명 또는 주소로 검색" />
             </div>
-            <button type="submit" class="locator_search_btn" id="locator_search_btn" disabled>검색</button>
+            <button type="submit" class="locator_search_btn" id="locator_search_btn">검색</button>
           </form>
 
           <button type="button" class="btn_fill_purple" id="locator_nearby_btn">
@@ -341,11 +360,11 @@
             <p class="trial_txt_desc" id="trial_txt_desc">설치는 1분이면 충분해요</p>
           </div>
           <div class="trial_store_buttons" id="trial_store_buttons">
-            <a class="trial_store_btn" href="#">
+            <a class="trial_store_btn" href="https://apps.apple.com/kr/app/f45-korea-new/id6751717648" target="_blank" rel="noopener noreferrer">
               <img src="./assets/icons/apple.png" alt="" />
               <span>App Store</span>
             </a>
-            <a class="trial_store_btn" href="#">
+            <a class="trial_store_btn" href="https://play.google.com/store/apps/details?id=ie.zappy.fennec.fskorea&hl=ko" target="_blank" rel="noopener noreferrer">
               <img src="./assets/icons/playstore.png" alt="" />
               <span>Play Store</span>
             </a>
@@ -395,6 +414,53 @@
     <p class="footer_copyright">F45 Korea @ 2026. All rights reserved.</p>
   </footer>
 
+  <!-- 로그인/체험권 신청 안내 모달: PRD상 실제 로그인·결제는 없어서(5장 제외범위),
+       사이트 전체가 이미 안내하는 "F45 Korea 앱에서 진행" 흐름을 그대로 재사용한
+       안내창으로 디자인함(가짜 로그인 폼 등을 새로 만들지 않음) -->
+  <div class="modal_overlay" id="login_modal" role="dialog" aria-modal="true" aria-labelledby="login_modal_title" hidden>
+    <div class="modal_card">
+      <button type="button" class="modal_close" id="login_modal_close" aria-label="닫기">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p class="modal_eyebrow">로그인</p>
+      <h2 class="modal_title" id="login_modal_title">F45 Korea 앱에서<br />로그인해보세요</h2>
+      <p class="modal_desc">지점 예약, 체험권 구매, 클래스 관리는<br />F45 Korea 모바일 앱에서 이용하실 수 있어요.</p>
+      <div class="modal_store_buttons">
+        <a class="trial_store_btn" href="https://apps.apple.com/kr/app/f45-korea-new/id6751717648" target="_blank" rel="noopener noreferrer">
+          <img src="./assets/icons/apple.png" alt="" />
+          <span>App Store</span>
+        </a>
+        <a class="trial_store_btn" href="https://play.google.com/store/apps/details?id=ie.zappy.fennec.fskorea&hl=ko" target="_blank" rel="noopener noreferrer">
+          <img src="./assets/icons/playstore.png" alt="" />
+          <span>Play Store</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal_overlay" id="trial_modal" role="dialog" aria-modal="true" aria-labelledby="trial_modal_title" hidden>
+    <div class="modal_card">
+      <button type="button" class="modal_close" id="trial_modal_close" aria-label="닫기">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p class="modal_eyebrow">체험권 신청</p>
+      <h2 class="modal_title" id="trial_modal_title">체험권은 앱에서<br />1분이면 신청 완료</h2>
+      <p class="modal_desc">F45 Korea 앱을 설치하고<br />가까운 지점에서 체험 수업을 예약해보세요.</p>
+      <div class="modal_store_buttons">
+        <a class="trial_store_btn" href="https://apps.apple.com/kr/app/f45-korea-new/id6751717648" target="_blank" rel="noopener noreferrer">
+          <img src="./assets/icons/apple.png" alt="" />
+          <span>App Store</span>
+        </a>
+        <a class="trial_store_btn" href="https://play.google.com/store/apps/details?id=ie.zappy.fennec.fskorea&hl=ko" target="_blank" rel="noopener noreferrer">
+          <img src="./assets/icons/playstore.png" alt="" />
+          <span>Play Store</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="./js/app.js"></script>
+<script src="./js/modal.js"></script>
 </body>
 </html>
