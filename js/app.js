@@ -96,6 +96,17 @@
       applyBranchFilter(getSelectedCity());
     });
 
+    // 모바일 디자인에서는 별도 검색 버튼이 노출되지 않으므로 키보드의 검색/Enter로도
+    // 동일한 필터가 확실히 실행되게 한다. 데스크톱에서는 기존 검색 버튼과 함께 동작한다.
+    input.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter") {
+        return;
+      }
+
+      event.preventDefault();
+      applyBranchFilter(getSelectedCity());
+    });
+
     if (nearbyBtn) {
       nearbyBtn.addEventListener("click", function () {
         input.value = "";
@@ -156,6 +167,71 @@
     track.addEventListener("pointermove", handlePhasePointerMove);
     track.addEventListener("pointerup", handlePhasePointerUp);
     track.addEventListener("pointerleave", handlePhasePointerUp);
+  }
+
+  function initHeroCarousel() {
+    var hero = document.getElementById("hero");
+    var images = document.querySelectorAll(".hero_image");
+    var dots = document.querySelectorAll(".hero_dot");
+
+    if (!hero || images.length < 2 || images.length !== dots.length) {
+      return;
+    }
+
+    var currentIndex = 0;
+    var autoplayId = null;
+    var autoplayDelayMs = 5000;
+    var isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function showSlide(index) {
+      currentIndex = (index + images.length) % images.length;
+
+      images.forEach(function (image, imageIndex) {
+        image.classList.toggle("is_active", imageIndex === currentIndex);
+      });
+
+      dots.forEach(function (dot, dotIndex) {
+        var isActive = dotIndex === currentIndex;
+        dot.classList.toggle("is_active", isActive);
+        dot.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+    }
+
+    function stopAutoplay() {
+      if (autoplayId !== null) {
+        window.clearInterval(autoplayId);
+        autoplayId = null;
+      }
+    }
+
+    function startAutoplay() {
+      if (isReducedMotion || autoplayId !== null) {
+        return;
+      }
+
+      autoplayId = window.setInterval(function () {
+        showSlide(currentIndex + 1);
+      }, autoplayDelayMs);
+    }
+
+    dots.forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        showSlide(Number(dot.dataset.index));
+        stopAutoplay();
+        startAutoplay();
+      });
+    });
+
+    hero.addEventListener("mouseenter", stopAutoplay);
+    hero.addEventListener("mouseleave", startAutoplay);
+    hero.addEventListener("focusin", stopAutoplay);
+    hero.addEventListener("focusout", function (event) {
+      if (!hero.contains(event.relatedTarget)) {
+        startAutoplay();
+      }
+    });
+
+    startAutoplay();
   }
 
   function initTrialCarousel() {
@@ -345,6 +421,7 @@
     initCityDropdown();
     initLocatorSearch();
     initPhaseManualScroll();
+    initHeroCarousel();
     initTrialCarousel();
     initLogoScrollTop();
   });
