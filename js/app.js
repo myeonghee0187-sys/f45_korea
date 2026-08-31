@@ -319,7 +319,7 @@
       { title: "수강을 원하는 지점 검색", desc: "우리 동네 F45가 바로 나와요", button: "none" },
       { title: "회원가입 또는 로그인", desc: "쉽고 간편한 로그인과 회원가입으로 빠르게 시작해요", button: "none" },
       { title: "하단에 멤버십 탭 클릭", desc: "하단 탭 하나면 충분해요", button: "none" },
-      { title: "상단 크레딧 구매에서 체험권 구매", desc: "크레딧 결제까지 순식간에 끝나요", button: "none" },
+      { title: "상단 크레딧 구매에서\n체험권 구매", desc: "크레딧 결제까지 순식간에 끝나요", button: "none" },
       { title: "예약하기 버튼 클릭", desc: "이제 F45에서 만나요", button: "cta" }
     ];
 

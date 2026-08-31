@@ -2633,6 +2633,7 @@ body.has_modal_open {
     max-width: 240px;
     font-size: 22px;
     line-height: 1.375;
+    white-space: pre-line;
   }
 
   .trial_txt_desc {
