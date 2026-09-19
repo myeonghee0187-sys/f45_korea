@@ -197,6 +197,80 @@
     track.addEventListener("pointerleave", handlePhasePointerUp);
   }
 
+  function initTouchSwipe(element, options) {
+    var gesture = null;
+
+    function findTouch(touches, identifier) {
+      for (var index = 0; index < touches.length; index += 1) {
+        if (touches[index].identifier === identifier) return touches[index];
+      }
+      return null;
+    }
+
+    function finishGesture(direction) {
+      if (!gesture) return;
+      gesture = null;
+      options.onEnd(direction || 0);
+    }
+
+    function handleTouchStart(event) {
+      if (gesture || event.touches.length !== 1) {
+        finishGesture(0);
+        return;
+      }
+      if (!options.isEnabled() || event.target.closest("a, button, input, select, textarea, label")) return;
+
+      var touch = event.touches[0];
+      // Safari의 화면 가장자리 뒤로/앞으로 가기 제스처는 브라우저에 맡긴다.
+      if (touch.clientX <= 20 || touch.clientX >= document.documentElement.clientWidth - 20) return;
+
+      gesture = { identifier: touch.identifier, startX: touch.clientX, startY: touch.clientY, isVertical: false };
+      options.onStart();
+    }
+
+    function handleAdditionalTouch(event) {
+      if (event.touches.length !== 1) finishGesture(0);
+    }
+
+    function handleTouchMove(event) {
+      if (!gesture) return;
+      var touch = findTouch(event.touches, gesture.identifier);
+      if (event.touches.length !== 1 || !touch) {
+        finishGesture(0);
+        return;
+      }
+      var deltaX = Math.abs(touch.clientX - gesture.startX);
+      var deltaY = Math.abs(touch.clientY - gesture.startY);
+      // 세로 스크롤로 시작한 동작은 끝에서 가로로 흔들려도 슬라이드를 넘기지 않는다.
+      if (deltaY >= 10 && deltaY > deltaX) gesture.isVertical = true;
+    }
+
+    function handleTouchEnd(event) {
+      if (!gesture) return;
+      var touch = findTouch(event.changedTouches, gesture.identifier);
+      if (!touch) return;
+      var deltaX = touch.clientX - gesture.startX;
+      var deltaY = touch.clientY - gesture.startY;
+      var canSwipe = options.isEnabled() && event.touches.length === 0 && !gesture.isVertical && Math.abs(deltaX) >= 40 && Math.abs(deltaX) > Math.abs(deltaY);
+      finishGesture(canSwipe ? (deltaX < 0 ? 1 : -1) : 0);
+    }
+
+    function handleGestureCancel() {
+      finishGesture(0);
+    }
+
+    // preventDefault 없이 세로 스크롤·핀치를 허용하며 Touch Events만 사용해 중복 전환을 막는다.
+    element.addEventListener("touchstart", handleTouchStart, { passive: true });
+    document.addEventListener("touchstart", handleAdditionalTouch, { passive: true });
+    document.addEventListener("touchmove", handleTouchMove, { passive: true });
+    document.addEventListener("touchend", handleTouchEnd, { passive: true });
+    document.addEventListener("touchcancel", handleGestureCancel, { passive: true });
+    document.addEventListener("visibilitychange", handleGestureCancel);
+    window.addEventListener("resize", handleGestureCancel);
+    window.addEventListener("orientationchange", handleGestureCancel);
+    window.addEventListener("pagehide", handleGestureCancel);
+  }
+
   function initHeroMedia() {
     var hero = document.getElementById("hero");
     var heroVideo = document.querySelector(".hero_video");
@@ -214,6 +288,8 @@
     var reducedMotionMediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     var heroVideoSource = heroVideo ? heroVideo.dataset.src : "";
     var isHeroInView = true;
+    var isTouchActive = false;
+    var isMouseOver = false;
 
     function showSlide(index) {
       currentIndex = (index + images.length) % images.length;
@@ -238,7 +314,7 @@
     }
 
     function startAutoplay() {
-      if (!mobileMediaQuery.matches || reducedMotionMediaQuery.matches || autoplayId !== null || !isHeroInView || document.hidden || hero.contains(document.activeElement)) {
+      if (!mobileMediaQuery.matches || reducedMotionMediaQuery.matches || autoplayId !== null || !isHeroInView || document.hidden || isTouchActive || isMouseOver || hero.contains(document.activeElement)) {
         return;
       }
 
@@ -314,8 +390,29 @@
       });
     });
 
-    hero.addEventListener("mouseenter", stopAutoplay);
-    hero.addEventListener("mouseleave", startAutoplay);
+    initTouchSwipe(hero, {
+      isEnabled: function () { return mobileMediaQuery.matches; },
+      onStart: function () {
+        isTouchActive = true;
+        stopAutoplay();
+      },
+      onEnd: function (direction) {
+        isTouchActive = false;
+        if (direction) showSlide(currentIndex + direction);
+        startAutoplay();
+      }
+    });
+
+    hero.addEventListener("pointerenter", function handleHeroPointerEnter(event) {
+      if (event.pointerType !== "mouse") return;
+      isMouseOver = true;
+      stopAutoplay();
+    });
+    hero.addEventListener("pointerleave", function handleHeroPointerLeave(event) {
+      if (event.pointerType !== "mouse") return;
+      isMouseOver = false;
+      startAutoplay();
+    });
     hero.addEventListener("focusin", stopAutoplay);
     hero.addEventListener("focusout", function (event) {
       if (!hero.contains(event.relatedTarget)) {
@@ -389,6 +486,8 @@
     var isReducedMotion = reducedMotionQuery.matches;
     var textTimeoutId = null;
     var isInView = false;
+    var isTouchActive = false;
+    var isMouseOver = false;
 
     // 자체 트랜지션이 있어서 즉시 실행해도 되는 것들(폰 크로스페이드, dot 모프)
     function applyPhoneAndDots(index) {
@@ -464,7 +563,7 @@
     }
 
     function startAutoplay() {
-      if (isReducedMotion || autoplayId !== null || !isInView || document.hidden || trialInner.matches(":hover") || trialInner.contains(document.activeElement)) {
+      if (isReducedMotion || autoplayId !== null || !isInView || document.hidden || isTouchActive || isMouseOver || trialInner.contains(document.activeElement)) {
         return;
       }
       autoplayId = window.setInterval(function () {
@@ -500,8 +599,29 @@
       handleManualNavigate(currentIndex + 1, 1);
     });
 
-    trialInner.addEventListener("mouseenter", stopAutoplay);
-    trialInner.addEventListener("mouseleave", startAutoplay);
+    initTouchSwipe(trialInner, {
+      isEnabled: function () { return true; },
+      onStart: function () {
+        isTouchActive = true;
+        stopAutoplay();
+      },
+      onEnd: function (direction) {
+        isTouchActive = false;
+        if (direction) handleManualNavigate(currentIndex + direction, direction);
+        else startAutoplay();
+      }
+    });
+
+    trialInner.addEventListener("pointerenter", function handleTrialPointerEnter(event) {
+      if (event.pointerType !== "mouse") return;
+      isMouseOver = true;
+      stopAutoplay();
+    });
+    trialInner.addEventListener("pointerleave", function handleTrialPointerLeave(event) {
+      if (event.pointerType !== "mouse") return;
+      isMouseOver = false;
+      startAutoplay();
+    });
     trialInner.addEventListener("focusin", stopAutoplay);
     trialInner.addEventListener("focusout", function handleTrialFocusout(event) {
       if (!trialInner.contains(event.relatedTarget)) startAutoplay();

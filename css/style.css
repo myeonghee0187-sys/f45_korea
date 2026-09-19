@@ -1148,6 +1148,8 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  /* Keep vertical page scrolling and pinch zoom available during touch swipes. */
+  touch-action: pan-y pinch-zoom;
 }
 
 .trial_row {
@@ -2121,13 +2123,10 @@ body.has_modal_open {
     object-fit: contain;
   }
 
-  .hero,
-  .hero_image {
-    height: 600px;
-  }
-
   .hero {
+    height: 600px;
     background: #000;
+    touch-action: pan-y pinch-zoom;
   }
 
   .hero_video {
@@ -2136,10 +2135,24 @@ body.has_modal_open {
 
   .hero_images {
     display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .hero_images > picture {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .hero_image {
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     object-position: center;
   }
 
@@ -2745,13 +2758,6 @@ body.has_modal_open {
 
   .modal_store_buttons {
     flex-direction: column;
-  }
-}
-
-/* 431~767px에서는 전용 가로형 이미지를 사용해 검정 여백 없이 히어로를 채운다. */
-@media (min-width: 431px) and (max-width: 767px) {
-  .hero_image {
-    object-fit: cover;
   }
 }
 
