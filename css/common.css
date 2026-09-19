@@ -68,7 +68,6 @@ body.has_menu_open { overflow: hidden; }
 .hero_dot.is_active::before, .trial_dot.is_active::before { width: 24px; background: var(--color-teal); }
 .trial_arrow { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex: 0 0 44px; }
 .trial_indicator { gap: 0; }
-.guide_card .title, .guide_card .desc, .guide_card .num { color: var(--color-text); }
 @media (max-width: 767px) {
   .branch_empty { top: 240px; width: 100%; }
   .trial_indicator { max-width: 100%; }
