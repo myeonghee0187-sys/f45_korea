@@ -44,6 +44,7 @@
         // 선택된 도시는 목록 안의 강조 항목으로 보여줌
         closeDropdown();
         applyBranchFilter(item.dataset.city);
+        toggle.focus();
       });
     });
 
@@ -54,9 +55,24 @@
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && dropdown.classList.contains("is_open")) {
         closeDropdown();
+        toggle.focus();
       }
+    });
+    dropdown.addEventListener("keydown", function handleCityKeydown(event) {
+      if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      openDropdown();
+      var index = Array.from(items).indexOf(document.activeElement);
+      if (event.key === "Home") index = 0;
+      else if (event.key === "End") index = items.length - 1;
+      else if (index < 0) index = event.key === "ArrowDown" ? 0 : items.length - 1;
+      else index = (index + (event.key === "ArrowDown" ? 1 : -1) + items.length) % items.length;
+      items[index].focus();
+    });
+    dropdown.addEventListener("focusout", function handleCityFocusout(event) {
+      if (!dropdown.contains(event.relatedTarget)) closeDropdown();
     });
   }
 
@@ -70,6 +86,7 @@
     var keyword = searchInput ? searchInput.value.trim() : "";
     var branchItems = document.querySelectorAll(".branch_item");
 
+    var visibleCount = 0;
     branchItems.forEach(function (branchItem) {
       var matchesCity = city === "전체" || branchItem.dataset.city === city;
       var matchesKeyword =
@@ -77,8 +94,12 @@
         branchItem.dataset.name.indexOf(keyword) !== -1 ||
         branchItem.dataset.address.indexOf(keyword) !== -1;
 
-      branchItem.classList.toggle("is_hidden", !(matchesCity && matchesKeyword));
+      var isVisible = matchesCity && matchesKeyword;
+      branchItem.classList.toggle("is_hidden", !isVisible);
+      if (isVisible) visibleCount += 1;
     });
+    var emptyState = document.getElementById("branch_empty");
+    if (emptyState) emptyState.hidden = visibleCount !== 0;
   }
 
   function initLocatorSearch() {
@@ -133,14 +154,15 @@
     var dragStartScrollLeft = 0;
 
     function handlePhaseWheel(event) {
-      if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+      var canScroll = event.deltaY > 0 ? track.scrollLeft < track.scrollWidth - track.clientWidth - 1 : track.scrollLeft > 0;
+      if (canScroll && Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
         track.scrollLeft += event.deltaY;
         event.preventDefault();
       }
     }
 
     function handlePhasePointerDown(event) {
-      if (event.pointerType !== "mouse") {
+      if (event.pointerType !== "mouse" || event.button !== 0 || event.target.closest("a, button")) {
         return;
       }
       isDragging = true;
@@ -162,6 +184,12 @@
       track.classList.remove("is_dragging");
     }
 
+    track.addEventListener("keydown", function handlePhaseKeydown(event) {
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        track.scrollLeft += (event.key === "ArrowRight" ? 1 : -1) * 280;
+      }
+    });
     track.addEventListener("wheel", handlePhaseWheel, { passive: false });
     track.addEventListener("pointerdown", handlePhasePointerDown);
     track.addEventListener("pointermove", handlePhasePointerMove);
@@ -185,6 +213,7 @@
     var mobileMediaQuery = window.matchMedia("(max-width: 767px)");
     var reducedMotionMediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     var heroVideoSource = heroVideo ? heroVideo.dataset.src : "";
+    var isHeroInView = true;
 
     function showSlide(index) {
       currentIndex = (index + images.length) % images.length;
@@ -197,6 +226,7 @@
         var isActive = dotIndex === currentIndex;
         dot.classList.toggle("is_active", isActive);
         dot.setAttribute("aria-selected", isActive ? "true" : "false");
+        dot.tabIndex = isActive ? 0 : -1;
       });
     }
 
@@ -208,7 +238,7 @@
     }
 
     function startAutoplay() {
-      if (!mobileMediaQuery.matches || reducedMotionMediaQuery.matches || autoplayId !== null) {
+      if (!mobileMediaQuery.matches || reducedMotionMediaQuery.matches || autoplayId !== null || !isHeroInView || document.hidden || hero.contains(document.activeElement)) {
         return;
       }
 
@@ -257,7 +287,7 @@
         return;
       }
 
-      if (reducedMotionMediaQuery.matches) {
+      if (reducedMotionMediaQuery.matches || !isHeroInView || document.hidden) {
         heroVideo.pause();
         return;
       }
@@ -293,6 +323,13 @@
       }
     });
 
+    document.addEventListener("visibilitychange", syncHeroMedia);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function handleHeroVisibility(entries) {
+        isHeroInView = entries[0].isIntersecting;
+        syncHeroMedia();
+      }).observe(hero);
+    }
     bindMediaChange(mobileMediaQuery);
     bindMediaChange(reducedMotionMediaQuery);
     syncHeroMedia();
@@ -341,7 +378,6 @@
 
     var totalSlides = slides.length;
     var currentIndex = 0;
-    var isAnimatingText = false;
     // 왼쪽 폰 크로스페이드(css transition 0.9s, style.css .trial_phone_slide)와 같은
     // 순간(t=0)에 시작해서 같은 길이(0.9s)로 끝나도록 맞춤 — out 0.15s(css
     // .is_sliding_out_*)로 짧게 빠지고, 남은 0.75s를 "들어오는" 쪽에 몰아서 폰이
@@ -349,18 +385,23 @@
     var textOutMs = 150;
     var autoplayId = null;
     var autoplayDelayMs = 7000; // "정말 천천히" 요청에 맞춘 자동 전환 간격
-    var isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var isReducedMotion = reducedMotionQuery.matches;
+    var textTimeoutId = null;
+    var isInView = false;
 
     // 자체 트랜지션이 있어서 즉시 실행해도 되는 것들(폰 크로스페이드, dot 모프)
     function applyPhoneAndDots(index) {
       slides.forEach(function (slide, slideIndex) {
         slide.classList.toggle("is_active", slideIndex === index);
+        slide.setAttribute("aria-hidden", slideIndex === index ? "false" : "true");
       });
 
       dots.forEach(function (dot, dotIndex) {
         var isActive = dotIndex === index;
         dot.classList.toggle("is_active", isActive);
         dot.setAttribute("aria-selected", isActive ? "true" : "false");
+        dot.tabIndex = isActive ? 0 : -1;
       });
     }
 
@@ -383,14 +424,15 @@
 
     // direction: 1=다음(왼쪽으로 빠지고 오른쪽에서 들어옴), -1=이전(반대)
     function renderSlide(index, direction) {
+      if (textTimeoutId !== null) window.clearTimeout(textTimeoutId);
+      trialRight.classList.remove("is_sliding_out_left", "is_sliding_out_right", "is_sliding_in_left", "is_sliding_in_right");
       currentIndex = index;
 
-      if (isReducedMotion || isAnimatingText) {
+      if (isReducedMotion) {
         applyStepContent(index);
         return;
       }
 
-      isAnimatingText = true;
       var outClass = direction < 0 ? "is_sliding_out_right" : "is_sliding_out_left";
       var inClass = direction < 0 ? "is_sliding_in_left" : "is_sliding_in_right";
 
@@ -400,8 +442,9 @@
       applyPhoneAndDots(index);
       trialRight.classList.add(outClass);
 
-      window.setTimeout(function () {
-        applyTextContent(index);
+      textTimeoutId = window.setTimeout(function () {
+        textTimeoutId = null;
+        applyTextContent(currentIndex);
         trialRight.classList.remove(outClass);
         trialRight.classList.add(inClass);
 
@@ -409,7 +452,6 @@
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
             trialRight.classList.remove(inClass);
-            isAnimatingText = false;
           });
         });
       }, textOutMs);
@@ -422,7 +464,7 @@
     }
 
     function startAutoplay() {
-      if (isReducedMotion || autoplayId !== null) {
+      if (isReducedMotion || autoplayId !== null || !isInView || document.hidden || trialInner.matches(":hover") || trialInner.contains(document.activeElement)) {
         return;
       }
       autoplayId = window.setInterval(function () {
@@ -460,7 +502,29 @@
 
     trialInner.addEventListener("mouseenter", stopAutoplay);
     trialInner.addEventListener("mouseleave", startAutoplay);
-
+    trialInner.addEventListener("focusin", stopAutoplay);
+    trialInner.addEventListener("focusout", function handleTrialFocusout(event) {
+      if (!trialInner.contains(event.relatedTarget)) startAutoplay();
+    });
+    reducedMotionQuery.addEventListener("change", function handleTrialMotionChange() {
+      isReducedMotion = reducedMotionQuery.matches;
+      stopAutoplay();
+      if (textTimeoutId !== null) window.clearTimeout(textTimeoutId);
+      textTimeoutId = null;
+      trialRight.classList.remove("is_sliding_out_left", "is_sliding_out_right", "is_sliding_in_left", "is_sliding_in_right");
+      applyStepContent(currentIndex);
+      startAutoplay();
+    });
+    document.addEventListener("visibilitychange", function handleTrialVisibility() {
+      stopAutoplay(); startAutoplay();
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        isInView = entries[0].isIntersecting;
+        stopAutoplay(); startAutoplay();
+      }).observe(trialInner);
+    } else { isInView = true; }
+    applyStepContent(0);
     startAutoplay();
   }
 
@@ -488,5 +552,17 @@
     initHeroMedia();
     initTrialCarousel();
     initLogoScrollTop();
+    document.querySelectorAll("[role=tablist]").forEach(function (list) {
+      list.addEventListener("keydown", function handleIndicatorKeydown(event) {
+        var keys = ["ArrowLeft", "ArrowRight", "Home", "End"];
+        if (!keys.includes(event.key)) return;
+        var tabs = Array.from(list.querySelectorAll("[role=tab]"));
+        var current = tabs.indexOf(document.activeElement);
+        if (current < 0) return;
+        event.preventDefault();
+        var next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[next].focus(); tabs[next].click();
+      });
+    });
   });
 })();

@@ -3,17 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta id="viewport_meta" name="viewport" content="width=device-width, initial-scale=1.0" />
-<script>
-  (function () {
-    var MOBILE_LAYOUT_WIDTH = 430;
-    var viewportMeta = document.getElementById("viewport_meta");
-    var deviceShortEdge = Math.min(window.screen.width, window.screen.height);
-
-    if (viewportMeta && deviceShortEdge < MOBILE_LAYOUT_WIDTH) {
-      viewportMeta.setAttribute("content", "width=" + MOBILE_LAYOUT_WIDTH);
-    }
-  })();
-</script>
 <title>F45 Korea</title>
 
 <!-- 기본 SEO -->
@@ -34,56 +23,66 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./favicon/icon-512.png" />
 <link rel="manifest" href="./favicon/site.webmanifest" />
 
-<link rel="stylesheet" href="./css/style.css?v=20260901d"/>
+<link rel="stylesheet" href="./css/style.css?v=20260920"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+<link rel="stylesheet" href="./css/common.css?v=20260920" />
 </head>
 <body>
 
   <!-- Header -->
-  <header class="header" id="header">
-    <a class="logo" href="#header">
-      <img src="./assets/icons/logo.svg" alt="F45 Korea">
-      <span class="logo_mobile_text" aria-hidden="true">F45 Korea</span>
-    </a>
-    <nav class="nav">
-      <a class="nav_link" href="#story">F45 KOREA</a>
-      <a class="nav_link" href="#locator">지점 찾기</a>
-      <a class="nav_link" href="#guide">체험권</a>
-      <button type="button" class="nav_link" id="login_trigger">로그인</button>
-      <button type="button" class="menu_toggle" aria-label="메뉴 열기">
-        <img src="./assets/icons/ham.png" alt="ham">
-      </button>
-    </nav>
-  </header>
+<a class="skip_link" href="#main_content">본문 바로가기</a>
+<header class="header" id="header">
+  <a class="logo" href="#header" aria-label="F45 Korea 홈">
+    <img src="./assets/icons/logo.svg" alt="F45 Korea" width="75" height="57" />
+    <span class="logo_mobile_text" aria-hidden="true">F45 Korea</span>
+  </a>
+  <nav class="nav" aria-label="주 메뉴">
+    <a class="nav_link" href="#story">F45 KOREA</a>
+    <a class="nav_link" href="#locator">지점 찾기</a>
+    <a class="nav_link" href="#guide">체험권</a>
+    <a class="nav_link" href="./pages/login.html" data-auth-guest>로그인</a>
+    <div class="auth_user" data-auth-user hidden><span class="auth_name" data-auth-name></span><button class="nav_link" type="button" data-auth-logout>로그아웃</button></div>
+    <button type="button" class="menu_toggle" data-menu-toggle aria-controls="mobile_menu" aria-expanded="false" aria-label="메뉴 열기"><img src="./assets/icons/ham.png" alt="" /></button>
+  </nav>
+</header>
+<div class="menu_overlay" data-menu-overlay hidden></div>
+<nav class="mobile_menu" id="mobile_menu" data-mobile-menu aria-label="모바일 메뉴" hidden>
+  <a class="nav_link" href="#story">F45 KOREA</a>
+  <a class="nav_link" href="#locator">지점 찾기</a>
+  <a class="nav_link" href="#guide">체험권</a>
+  <a class="nav_link" href="./pages/login.html" data-auth-guest>로그인</a>
+  <div class="auth_user" data-auth-user hidden><span class="auth_name" data-auth-name></span><button class="nav_link" type="button" data-auth-logout>로그아웃</button></div>
+</nav>
+<p class="sr_only" data-auth-status role="status" aria-live="polite"></p>
 
+  <main id="main_content" tabindex="-1">
   <!-- Hero -->
   <section class="hero" id="hero">
     <video class="hero_video" data-src="./assets/images/hero.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
     <div class="hero_images" aria-hidden="true">
       <picture>
         <source media="(min-width: 431px) and (max-width: 767px)" srcset="./assets/images/hero_frame_01_wide.jpg" />
-        <img class="hero_image is_active" src="./assets/images/hero_frame_01.jpg" alt="" fetchpriority="high" />
+        <img class="hero_image is_active" src="./assets/images/hero_frame_01.jpg" alt="" fetchpriority="high" width="430" height="600" />
       </picture>
       <picture>
         <source media="(min-width: 431px) and (max-width: 767px)" srcset="./assets/images/hero_frame_02_wide.jpg" />
-        <img class="hero_image" src="./assets/images/hero_frame_02.jpg" alt="" />
+        <img class="hero_image" src="./assets/images/hero_frame_02.jpg" alt="" width="430" height="600" />
       </picture>
       <picture>
         <source media="(min-width: 431px) and (max-width: 767px)" srcset="./assets/images/hero_frame_03_wide.jpg" />
-        <img class="hero_image" src="./assets/images/hero_frame_03.jpg" alt="" />
+        <img class="hero_image" src="./assets/images/hero_frame_03.jpg" alt="" width="430" height="600" />
       </picture>
       <picture>
         <source media="(min-width: 431px) and (max-width: 767px)" srcset="./assets/images/hero_frame_04_wide.jpg" />
-        <img class="hero_image" src="./assets/images/hero_frame_04.jpg" alt="" />
+        <img class="hero_image" src="./assets/images/hero_frame_04.jpg" alt="" width="430" height="600" />
       </picture>
       <picture>
         <source media="(min-width: 431px) and (max-width: 767px)" srcset="./assets/images/hero_frame_05_wide.jpg" />
-        <img class="hero_image" src="./assets/images/hero_frame_05.jpg?v=20260830c" alt="" />
+        <img class="hero_image" src="./assets/images/hero_frame_05.jpg?v=20260830c" alt="" width="430" height="600" />
       </picture>
     </div>
     <div class="hero_body">
-      <h1 class="hero_title">Team Training<br />Life Changing</h1>
+      <h1 class="hero_title" aria-label="Team Training Life Changing"><span class="hero_title_line" aria-hidden="true">Team Training</span><br /><span class="hero_title_line" aria-hidden="true">Life Changing</span></h1>
       <div class="hero_indicator" role="tablist" aria-label="히어로 이미지 선택">
         <button type="button" class="hero_dot is_active" data-index="0" role="tab" aria-selected="true" aria-label="1번째 이미지"></button>
         <button type="button" class="hero_dot" data-index="1" role="tab" aria-selected="false" aria-label="2번째 이미지"></button>
@@ -91,20 +90,20 @@
         <button type="button" class="hero_dot" data-index="3" role="tab" aria-selected="false" aria-label="4번째 이미지"></button>
         <button type="button" class="hero_dot" data-index="4" role="tab" aria-selected="false" aria-label="5번째 이미지"></button>
       </div>
-      <button type="button" class="hero_cta" id="hero_cta">체험권 신청하기</button>
+      <button type="button" class="hero_cta" id="hero_cta" data-modal-target="trial_modal" data-magnetic><span class="magnetic_label">체험권 신청하기</span></button>
     </div>
   </section>
 
   <!-- WHY F45 KOREA -->
   <section class="section" id="story">
     <div class="wrap">
-      <p class="eyebrow">WHY F45 KOREA</p>
-      <h2 class="section_title">다섯 글자에 담긴, 우리가 다른 이유</h2>
+      <p class="eyebrow" data-reveal>WHY F45 KOREA</p>
+      <h2 class="section_title" data-reveal>다섯 글자에 담긴, 우리가 다른 이유</h2>
 
       <div class="korea_grid">
         <div data-aos="fade-up">
           <div class="korea_row korea_row_k">
-            <div class="korea_photo"><img src="./assets/images/intro_k.jpg" alt="KINETIC TRAINING" /></div>
+            <div class="korea_photo"><img src="./assets/images/intro_k.jpg" alt="KINETIC TRAINING" width="400" height="400" loading="lazy" /></div>
             <div class="korea_text">
               <p class="korea_text_tit">KINETIC TRAINING</p>
               <p class="korea_text_desc">과학 기반 기능성 트레이닝<br />근육과 심혈관 건강을 동시에 개선</p>
@@ -117,12 +116,12 @@
               <p class="korea_text_tit">OPTIMIZED 45 MIN</p>
               <p class="korea_text_desc">하루 45분, 가장 효율적인 트레이닝<br />세션당 최대 750kcal 소모</p>
             </div>
-            <div class="korea_photo"><img src="./assets/images/intro_o.jpg" alt="OPTIMIZED 45 MIN" /></div>
+            <div class="korea_photo"><img src="./assets/images/intro_o.jpg" alt="OPTIMIZED 45 MIN" width="400" height="400" loading="lazy" /></div>
           </div>
         </div>
         <div data-aos="fade-up" data-aos-delay="100">
           <div class="korea_row korea_row_r">
-            <div class="korea_photo"><img src="./assets/images/intro_r.jpg" alt="RELATIONSHIPS" /></div>
+            <div class="korea_photo"><img src="./assets/images/intro_r.jpg" alt="RELATIONSHIPS" width="400" height="400" loading="lazy" /></div>
             <div class="korea_text">
               <p class="korea_text_tit">RELATIONSHIPS</p>
               <p class="korea_text_desc">단순 피트니스 시설이 아닌<br />함께 격려하고 성장하는 관계</p>
@@ -135,12 +134,12 @@
               <p class="korea_text_tit">EXPERT COACHES</p>
               <p class="korea_text_desc">전문 자격을 갖춘 모든 코치와<br />개개인의 필요에 맞춘 케어 제공</p>
             </div>
-            <div class="korea_photo"><img src="./assets/images/intro_e.jpg" alt="EXPERT COACHES" /></div>
+            <div class="korea_photo"><img src="./assets/images/intro_e.jpg" alt="EXPERT COACHES" width="400" height="400" loading="lazy" /></div>
           </div>
         </div>
         <div data-aos="fade-up" data-aos-delay="100">
           <div class="korea_row korea_row_a">
-            <div class="korea_photo"><img src="./assets/images/intro_a.jpg" alt="ADAPTIVE PROGRAM" /></div>
+            <div class="korea_photo"><img src="./assets/images/intro_a.jpg" alt="ADAPTIVE PROGRAM" width="400" height="400" loading="lazy" /></div>
             <div class="korea_text">
               <p class="korea_text_tit">ADAPTIVE PROGRAM</p>
               <p class="korea_text_desc">5,000개 이상의 동작으로<br />매 세션 새로운 운동을 경험</p>
@@ -172,54 +171,54 @@
   <!-- PHASE -->
   <section class="section" id="phase">
     <div class="wrap">
-      <p class="eyebrow">이번 PHASE</p>
-      <h2 class="section_title">4주간 지루함 없는 성장</h2>
+      <p class="eyebrow" data-reveal>이번 PHASE</p>
+      <h2 class="section_title" data-reveal>4주간 지루함 없는 성장</h2>
 
-      <div class="phase_grid">
-        <div class="phase_card">
-          <div class="thumb"><img src="./assets/images/phase_pipline.jpg" alt="PIPELINE" /></div>
+      <div class="phase_grid" tabindex="0" role="region" aria-label="PHASE 프로그램, 가로 스크롤">
+        <div class="phase_card" data-spotlight>
+          <div class="thumb"><img src="./assets/images/phase_pipline.jpg" alt="PIPELINE" width="300" height="373" loading="lazy" /></div>
           <div class="info">
             <p class="name">PIPELINE</p>
             <p class="phase_desc">서핑의 짜릿함을 그대로 담은 유산소<br />밸런스 감각과 심폐 지구력을 함께 키워요</p>
           </div>
         </div>
-        <div class="phase_card">
-          <div class="thumb"><img src="./assets/images/phase_lonestar.jpg" alt="LONESTAR" /></div>
+        <div class="phase_card" data-spotlight>
+          <div class="thumb"><img src="./assets/images/phase_lonestar.jpg" alt="LONESTAR" width="300" height="375" loading="lazy" /></div>
           <div class="info">
             <p class="name">LONESTAR</p>
             <p class="phase_desc">한 번 돌고, 반대로 한 번 더 도는<br />좌우 근력 균형을 채우는 프로그램</p>
           </div>
         </div>
-        <div class="phase_card">
-          <div class="thumb"><img src="./assets/images/phase_docklands.jpg" alt="DOCKLANDS" /></div>
+        <div class="phase_card" data-spotlight>
+          <div class="thumb"><img src="./assets/images/phase_docklands.jpg" alt="DOCKLANDS" width="300" height="375" loading="lazy" /></div>
           <div class="info">
             <p class="name">DOCKLANDS</p>
             <p class="phase_desc">세트가 짧아질수록 강도는 높아지는<br />체중 기반 고강도 유산소 인터벌</p>
           </div>
         </div>
-        <div class="phase_card">
-          <div class="thumb"><img src="./assets/images/phase_fusion.jpg" alt="FUSION" /></div>
+        <div class="phase_card" data-spotlight>
+          <div class="thumb"><img src="./assets/images/phase_fusion.jpg" alt="FUSION" width="300" height="375" loading="lazy" /></div>
           <div class="info">
             <p class="name">FUSION</p>
             <p class="phase_desc">상체, 하체, 전신 중 직접 선택하는<br />맞춤형 근력 트레이닝 프로그램</p>
           </div>
         </div>
-        <div class="phase_card">
-          <div class="thumb"><img src="./assets/images/phase_thenines.jpg" alt="THE NINES" /></div>
+        <div class="phase_card" data-spotlight>
+          <div class="thumb"><img src="./assets/images/phase_thenines.jpg" alt="THE NINES" width="300" height="375" loading="lazy" /></div>
           <div class="info">
             <p class="name">THE NINES</p>
             <p class="phase_desc">프로 선수들의 트레이닝 기법으로<br />전신 근력을 채우는 하이브리드 프로그램</p>
           </div>
         </div>
-        <div class="phase_card">
-          <div class="thumb"><img src="./assets/images/phase_west.jpg" alt="WEST HOLLYWOOD" /></div>
+        <div class="phase_card" data-spotlight>
+          <div class="thumb"><img src="./assets/images/phase_west.jpg" alt="WEST HOLLYWOOD" width="300" height="375" loading="lazy" /></div>
           <div class="info">
             <p class="name">WEST HOLLYWOOD</p>
             <p class="phase_desc">전 세계 F45가 뽑은 베스트 워크아웃<br />심장과 근육을 제대로 깨우는 클래식</p>
           </div>
         </div>
-        <div class="phase_card">
-          <div class="thumb"><img src="./assets/images/phase_angrybird.jpg" alt="ANGRYBIRD" /></div>
+        <div class="phase_card" data-spotlight>
+          <div class="thumb"><img src="./assets/images/phase_angrybird.jpg" alt="ANGRYBIRD" width="300" height="375" loading="lazy" /></div>
           <div class="info">
             <p class="name">ANGRYBIRD</p>
             <p class="phase_desc">하체, 상체, 코어까지 구간별로<br />타깃을 바꿔가는 전신 근력 운동</p>
@@ -232,8 +231,8 @@
   <!-- Locator -->
   <section class="section" id="locator">
     <div class="locator_inner">
-      <p class="eyebrow">지점 찾기</p>
-      <h2 class="section_title">지친 일상 속 F45와 함께</h2>
+      <p class="eyebrow" data-reveal>지점 찾기</p>
+      <h2 class="section_title" data-reveal>지친 일상 속 F45와 함께</h2>
 
       <div class="locator_controls">
         <div class="city_dropdown" id="city_dropdown">
@@ -268,8 +267,8 @@
       </div>
 
       <div class="locator_body">
-        <ul class="branch_list" id="branch_list">
-          <li class="branch_item" data-city="서울" data-name="F45 교대" data-address="서초대로51길 24 2,3층">
+        <ul class="branch_list" id="branch_list" aria-label="F45 지점 목록" tabindex="0">
+          <li class="branch_item" data-branch-id="gyodae" data-spotlight data-city="서울" data-name="F45 교대" data-address="서초대로51길 24 2,3층">
             <div class="branch_item_tit">
               <p class="branch_name">F45 교대</p>
               <div class="branch_item_txt">
@@ -277,9 +276,9 @@
                 <p class="branch_phone">0507-1334-6376</p>
               </div>
             </div>
-            <button type="button" class="branch_detail_btn">상세페이지 보기</button>
+            <a class="branch_detail_btn" href="./pages/detail.html?branch=gyodae">상세페이지 보기</a>
           </li>
-          <li class="branch_item" data-city="서울" data-name="F45 역삼" data-address="테헤란로14길 13 지하 1층">
+          <li class="branch_item" data-branch-id="yeoksam" data-spotlight data-city="서울" data-name="F45 역삼" data-address="테헤란로14길 13 지하 1층">
             <div class="branch_item_tit">
               <p class="branch_name">F45 역삼</p>
               <div class="branch_item_txt">
@@ -287,9 +286,9 @@
                 <p class="branch_phone">0507-1391-1451</p>
               </div>
             </div>
-            <button type="button" class="branch_detail_btn">상세페이지 보기</button>
+            <a class="branch_detail_btn" href="./pages/detail.html?branch=yeoksam">상세페이지 보기</a>
           </li>
-          <li class="branch_item" data-city="서울" data-name="F45 신사" data-address="도산대로 120 청호빌딩 지하 1층">
+          <li class="branch_item" data-branch-id="sinsa" data-spotlight data-city="서울" data-name="F45 신사" data-address="도산대로 120 청호빌딩 지하 1층">
             <div class="branch_item_tit">
               <p class="branch_name">F45 신사</p>
               <div class="branch_item_txt">
@@ -297,9 +296,9 @@
                 <p class="branch_phone">0507-1334-6376</p>
               </div>
             </div>
-            <button type="button" class="branch_detail_btn">상세페이지 보기</button>
+            <a class="branch_detail_btn" href="./pages/detail.html?branch=sinsa">상세페이지 보기</a>
           </li>
-          <li class="branch_item" data-city="서울" data-name="F45 청담" data-address="도산대로 413 고영캠퍼스 지하 2층">
+          <li class="branch_item" data-branch-id="cheongdam" data-spotlight data-city="서울" data-name="F45 청담" data-address="도산대로 413 고영캠퍼스 지하 2층">
             <div class="branch_item_tit">
               <p class="branch_name">F45 청담</p>
               <div class="branch_item_txt">
@@ -307,9 +306,9 @@
                 <p class="branch_phone">0507-1421-0649</p>
               </div>
             </div>
-            <button type="button" class="branch_detail_btn">상세페이지 보기</button>
+            <a class="branch_detail_btn" href="./pages/detail.html?branch=cheongdam">상세페이지 보기</a>
           </li>
-          <li class="branch_item" data-city="서울" data-name="F45 강남" data-address="테헤란로84길 14 지하 1층">
+          <li class="branch_item" data-branch-id="gangnam" data-spotlight data-city="서울" data-name="F45 강남" data-address="테헤란로84길 14 지하 1층">
             <div class="branch_item_tit">
               <p class="branch_name">F45 강남</p>
               <div class="branch_item_txt">
@@ -317,9 +316,9 @@
                 <p class="branch_phone">0507-1444-1657</p>
               </div>
             </div>
-            <button type="button" class="branch_detail_btn">상세페이지 보기</button>
+            <a class="branch_detail_btn" href="./pages/detail.html?branch=gangnam">상세페이지 보기</a>
           </li>
-          <li class="branch_item" data-city="서울" data-name="F45 보라매" data-address="보라매로5가길 16 3층">
+          <li class="branch_item" data-branch-id="boramae" data-spotlight data-city="서울" data-name="F45 보라매" data-address="보라매로5가길 16 3층">
             <div class="branch_item_tit">
               <p class="branch_name">F45 보라매</p>
               <div class="branch_item_txt">
@@ -327,12 +326,13 @@
                 <p class="branch_phone">0507-1381-5238</p>
               </div>
             </div>
-            <button type="button" class="branch_detail_btn">상세페이지 보기</button>
+            <a class="branch_detail_btn" href="./pages/detail.html?branch=boramae">상세페이지 보기</a>
           </li>
         </ul>
 
+        <p class="branch_empty" id="branch_empty" role="status" hidden>검색 결과가 없습니다. 지점명이나 주소를 다시 확인해주세요.</p>
         <div class="map_image">
-          <img src="./assets/images/map.jpg" alt="F45 코리아 지점 지도" />
+          <img src="./assets/images/map.jpg" alt="F45 코리아 지점 지도" width="940" height="627" loading="lazy" />
         </div>
       </div>
     </div>
@@ -342,8 +342,8 @@
   <section class="section" id="guide">
     <div class="guide_inner">
       <div class="guide_info">
-        <p class="eyebrow">입문자 케어 가이드</p>
-        <h2 class="section_title">첫 방문 전, 꼭 확인하세요.<br />F45의 케어가 시작부터 함께합니다.</h2>
+        <p class="eyebrow" data-reveal>입문자 케어 가이드</p>
+        <h2 class="section_title" data-reveal>첫 방문 전, 꼭 확인하세요.<br />F45의 케어가 시작부터 함께합니다.</h2>
       </div>
 
       <div class="guide_list">
@@ -422,7 +422,7 @@
           <p class="trial_num">
             <span class="trial_num_current" id="trial_num_current">01</span><span class="trial_num_slash">/</span><span class="trial_num_total">06</span>
           </p>
-          <div class="trial_txt">
+          <div class="trial_txt" data-reveal>
             <p class="trial_txt_title" id="trial_txt_title">F45 - Korea (new) <br> 모바일 앱 설치</p>
             <p class="trial_txt_desc" id="trial_txt_desc">설치는 1분이면 충분해요</p>
           </div>
@@ -436,7 +436,7 @@
               <span>Play Store</span>
             </a>
           </div>
-          <button type="button" class="trial_cta is_hidden" id="trial_cta">체험권 신청하기</button>
+          <button type="button" class="trial_cta is_hidden" id="trial_cta" data-modal-target="trial_modal" data-magnetic><span class="magnetic_label">체험권 신청하기</span></button>
         </div>
       </div>
 
@@ -459,6 +459,7 @@
     </div>
   </section>
 
+  </main>
   <!-- Footer -->
   <footer class="footer" id="footer">
     <div class="footer_logo">
@@ -466,48 +467,25 @@
       <span class="footer_logo_mobile_text" aria-hidden="true">F45 KOREA</span>
     </div>
     <div class="footer_social">
-      <a href="#"><img src="./assets/icons/utube.png" alt="유튜브" /></a>
-      <a href="#"><img src="./assets/icons/facebook.png" alt="페이스북" /></a>
-      <a href="#"><img src="./assets/icons/twitter.png" alt="트위터" /></a>
-      <a href="#"><img src="./assets/icons/instagram.png" alt="인스타그램" /></a>
-      <a href="#"><img src="./assets/icons/in.png" alt="링크드인" /></a>
+      <span><img src="./assets/icons/utube.png" alt="유튜브" /></span>
+      <span><img src="./assets/icons/facebook.png" alt="페이스북" /></span>
+      <span><img src="./assets/icons/twitter.png" alt="트위터" /></span>
+      <span><img src="./assets/icons/instagram.png" alt="인스타그램" /></span>
+      <span><img src="./assets/icons/in.png" alt="링크드인" /></span>
     </div>
     <p class="footer_company">
       대표자. 김예진, Maier Joseph Robert<br />
       사업자등록번호. 811-86-01984
     </p>
     <div class="footer_links">
-      <a href="#">개인정보 수집 및 이용 동의</a>
-      <a href="#">이용약관</a>
-      <a href="#" class="is_bold">개인정보처리방침</a>
+      <span>개인정보 수집 및 이용 동의</span>
+      <span>이용약관</span>
+      <span class="is_bold">개인정보처리방침</span>
     </div>
     <p class="footer_copyright">F45 Korea @ 2026. All rights reserved.</p>
   </footer>
 
-  <!-- 로그인/체험권 신청 안내 모달: PRD상 실제 로그인·결제는 없어서(5장 제외범위),
-       사이트 전체가 이미 안내하는 "F45 Korea 앱에서 진행" 흐름을 그대로 재사용한
-       안내창으로 디자인함(가짜 로그인 폼 등을 새로 만들지 않음) -->
-  <div class="modal_overlay" id="login_modal" role="dialog" aria-modal="true" aria-labelledby="login_modal_title" hidden>
-    <div class="modal_card">
-      <button type="button" class="modal_close" id="login_modal_close" aria-label="닫기">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <p class="modal_eyebrow">로그인</p>
-      <h2 class="modal_title" id="login_modal_title">F45 Korea 앱에서<br />로그인해보세요</h2>
-      <p class="modal_desc">지점 예약, 체험권 구매, 클래스 관리는<br />F45 Korea 모바일 앱에서 이용하실 수 있어요.</p>
-      <div class="modal_store_buttons">
-        <a class="trial_store_btn" href="https://apps.apple.com/kr/app/f45-korea-new/id6751717648" target="_blank" rel="noopener noreferrer">
-          <img src="./assets/icons/apple.png" alt="" />
-          <span>App Store</span>
-        </a>
-        <a class="trial_store_btn" href="https://play.google.com/store/apps/details?id=ie.zappy.fennec.fskorea&hl=ko" target="_blank" rel="noopener noreferrer">
-          <img src="./assets/icons/playstore.png" alt="" />
-          <span>Play Store</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
+  <!-- 체험권 앱 안내 -->
   <div class="modal_overlay" id="trial_modal" role="dialog" aria-modal="true" aria-labelledby="trial_modal_title" hidden>
     <div class="modal_card">
       <button type="button" class="modal_close" id="trial_modal_close" aria-label="닫기">
@@ -531,8 +509,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-<script src="./js/app.js?v=20260901b"></script>
+<script src="./js/storage.js?v=20260920"></script>
+<script src="./js/auth.js?v=20260920"></script>
+<script src="./js/app.js?v=20260920"></script>
 <script src="./js/modal.js"></script>
-<script src="./js/scroll_animations.js?v=20260830d"></script>
+<script src="./js/scroll_animations.js?v=20260920"></script>
+<script src="./js/interactions.js?v=20260920"></script>
 </body>
 </html>

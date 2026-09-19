@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>지점 정보 없음 | F45 Korea</title>
+  <meta name="description" content="F45 Korea 지점 찾기에서 가까운 지점의 주소와 연락처를 확인하세요." />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#f6c84f" />
+  <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg" />
+  <link rel="icon" href="../favicon/favicon.ico" sizes="48x48" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32.png" />
+  <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="../favicon/site.webmanifest" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body class="sub_page detail_page">
+  <!-- Shared header -->
+<a class="skip_link" href="#main_content">본문 바로가기</a>
+<header class="header" id="header">
+  <a class="logo" href="../index.html" aria-label="F45 Korea 홈">
+    <img src="../assets/icons/logo.svg" alt="F45 Korea" width="75" height="57" />
+    <span class="logo_mobile_text" aria-hidden="true">F45 Korea</span>
+  </a>
+  <nav class="nav" aria-label="주 메뉴">
+    <a class="nav_link" href="../index.html#story">F45 KOREA</a>
+    <a class="nav_link" href="../index.html#locator">지점 찾기</a>
+    <a class="nav_link" href="../index.html#guide">체험권</a>
+    <a class="nav_link" href="./login.html" data-auth-guest>로그인</a>
+    <div class="auth_user" data-auth-user hidden><span class="auth_name" data-auth-name></span><button class="nav_link" type="button" data-auth-logout>로그아웃</button></div>
+    <button type="button" class="menu_toggle" data-menu-toggle aria-controls="mobile_menu" aria-expanded="false" aria-label="메뉴 열기"><img src="../assets/icons/ham.png" alt="" /></button>
+  </nav>
+</header>
+<div class="menu_overlay" data-menu-overlay hidden></div>
+<nav class="mobile_menu" id="mobile_menu" data-mobile-menu aria-label="모바일 메뉴" hidden>
+  <a class="nav_link" href="../index.html#story">F45 KOREA</a>
+  <a class="nav_link" href="../index.html#locator">지점 찾기</a>
+  <a class="nav_link" href="../index.html#guide">체험권</a>
+  <a class="nav_link" href="./login.html" data-auth-guest>로그인</a>
+  <div class="auth_user" data-auth-user hidden><span class="auth_name" data-auth-name></span><button class="nav_link" type="button" data-auth-logout>로그아웃</button></div>
+</nav>
+<p class="sr_only" data-auth-status role="status" aria-live="polite"></p>
+  <!-- End shared header -->
+
+  <main class="detail_main" id="main_content" tabindex="-1">
+    <div class="detail_wrap">
+      <nav class="detail_breadcrumb" aria-label="현재 위치">
+        <ol>
+          <li><a href="../index.html">홈</a></li>
+          <li><a href="../index.html#locator">지점 찾기</a></li>
+          <li aria-current="page" data-branch-breadcrumb>지점 안내</li>
+        </ol>
+      </nav>
+
+      <noscript>
+        <p class="detail_noscript">지점별 상세 정보를 표시하려면 JavaScript가 필요합니다. <a href="../index.html#locator">홈의 지점 찾기</a>에서 6개 지점의 주소와 전화번호를 확인할 수 있습니다.</p>
+      </noscript>
+
+      <section class="detail_unavailable" id="branch_unavailable" aria-labelledby="branch_unavailable_title">
+        <p class="detail_eyebrow">F45 KOREA / STUDIO</p>
+        <h1 class="detail_heading" id="branch_unavailable_title">지점 정보를 찾을 수 없습니다</h1>
+        <p class="detail_copy">지점 찾기에서 원하는 지점을 다시 선택해주세요. 주소와 연락처를 확인하고 가까운 F45에서 트레이닝을 시작할 수 있습니다.</p>
+        <div class="detail_actions">
+          <a class="detail_primary" href="../index.html#locator">지점 찾기로 돌아가기</a>
+        </div>
+      </section>
+
+      <div id="branch_content" hidden>
+        <section class="detail_hero" aria-labelledby="branch_title">
+          <div class="detail_hero_content">
+            <p class="detail_eyebrow">F45 KOREA / STUDIO</p>
+            <h1 class="detail_title" id="branch_title" data-branch-name>F45 지점</h1>
+            <p class="detail_intro">함께 움직이는 45분.<br />새로운 변화를 이곳에서 시작하세요.</p>
+            <dl class="detail_contact">
+              <div><dt>주소</dt><dd data-branch-address></dd></div>
+              <div><dt>전화</dt><dd><a data-branch-tel><span data-branch-phone></span></a></dd></div>
+            </dl>
+            <div class="detail_actions">
+              <button class="detail_primary" id="detail_trial_cta" type="button" data-modal-target="trial_modal" data-magnetic><span class="magnetic_label">이 지점에서 체험 시작하기</span></button>
+              <a class="detail_secondary" data-branch-tel>전화 걸기</a>
+            </div>
+          </div>
+          <figure class="detail_hero_media">
+            <img class="detail_hero_image" src="../assets/images/hero_frame_03_wide.jpg" alt="F45 트레이닝 이미지" width="1536" height="1200" fetchpriority="high" data-media-entrance />
+            <figcaption class="detail_caption">F45 트레이닝 이미지 · 특정 지점의 실제 내부 사진이 아닙니다.</figcaption>
+          </figure>
+        </section>
+
+        <section class="detail_section detail_location" aria-labelledby="detail_location_title">
+          <div>
+            <p class="detail_eyebrow">FIND YOUR STUDIO</p>
+            <h2 class="detail_heading" id="detail_location_title" data-reveal>방문할 지점을 확인하세요</h2>
+            <p class="detail_location_address" data-branch-address></p>
+            <p class="detail_copy">방문 전 주소를 확인하고, 체험 수업에 대한 자세한 사항은 지점에 문의해주세요.</p>
+            <div class="detail_actions"><a class="detail_secondary" href="../index.html#locator">다른 지점도 찾아보기</a></div>
+          </div>
+          <figure class="detail_map">
+            <img src="../assets/images/map.jpg" alt="F45 서울 일부 지점이 표시된 참고 지도" width="940" height="627" loading="lazy" />
+            <figcaption class="detail_caption">F45 지점 안내 참고 이미지입니다. 선택한 지점의 위치를 표시한 지도는 아닙니다.</figcaption>
+          </figure>
+        </section>
+      </div>
+
+      <section class="detail_section" aria-labelledby="detail_training_title">
+        <p class="detail_eyebrow">TEAM TRAINING. LIFE CHANGING.</p>
+        <h2 class="detail_heading" id="detail_training_title" data-reveal>혼자보다 함께,<br />F45 트레이닝 경험</h2>
+        <p class="detail_copy">기능성 트레이닝과 팀의 에너지가 만나는 시간. 나에게 맞는 강도로 움직이며 매 세션 새로운 운동을 경험해보세요.</p>
+        <div class="detail_training_grid">
+          <article class="detail_training_card" data-spotlight>
+            <img src="../assets/images/intro_k.jpg" alt="F45 트레이닝 이미지" width="400" height="400" loading="lazy" data-media-entrance />
+            <div class="detail_training_text">
+              <h3>KINETIC TRAINING</h3>
+              <p>일상에 필요한 움직임을 바탕으로 근력과 유산소 운동을 함께 경험해보세요.</p>
+            </div>
+          </article>
+          <article class="detail_training_card" data-spotlight>
+            <img src="../assets/images/intro_r.jpg" alt="F45 트레이닝 이미지" width="400" height="400" loading="lazy" data-media-entrance />
+            <div class="detail_training_text">
+              <h3>TEAM TRAINING</h3>
+              <p>서로를 격려하는 팀과 함께, 자신의 속도에 맞춰 오늘의 트레이닝을 이어갑니다.</p>
+            </div>
+          </article>
+        </div>
+        <p class="detail_caption">F45 브랜드 트레이닝 이미지이며, 특정 지점의 실제 사진이 아닙니다.</p>
+      </section>
+
+      <section class="detail_visit" aria-labelledby="detail_visit_title">
+        <p class="detail_eyebrow">YOUR FIRST 45</p>
+        <h2 class="detail_heading" id="detail_visit_title" data-reveal>처음이어도 괜찮아요</h2>
+        <p class="detail_copy">첫 방문 전, 가볍게 준비하고 내 몸의 상태를 알려주세요.</p>
+        <ol class="detail_visit_list">
+          <li><span class="detail_visit_number" aria-hidden="true">01</span><div><h3>운동 준비물 챙기기</h3><p>실내용 운동화, 운동복, 텀블러를 준비해주세요.</p></div></li>
+          <li><span class="detail_visit_number" aria-hidden="true">02</span><div><h3>몸 상태 공유하기</h3><p>운동 경험과 컨디션을 코치에게 알려주세요.</p></div></li>
+          <li><span class="detail_visit_number" aria-hidden="true">03</span><div><h3>내 페이스로 시작하기</h3><p>코치의 안내에 따라 나에게 맞는 강도로 시작하세요.</p></div></li>
+        </ol>
+        <div class="detail_actions"><a class="detail_secondary" href="../index.html#guide">입문자 케어 가이드 보기</a></div>
+      </section>
+
+      <section class="detail_app" aria-labelledby="detail_app_title">
+        <div>
+          <p class="detail_eyebrow">F45 KOREA APP</p>
+          <h2 class="detail_heading" id="detail_app_title" data-reveal>다음 45분을 준비하세요</h2>
+          <p class="detail_copy">체험권 신청과 수업 예약은 F45 Korea 앱에서 진행할 수 있어요.</p>
+        </div>
+        <div class="detail_store_buttons">
+          <a class="trial_store_btn" href="https://apps.apple.com/kr/app/f45-korea-new/id6751717648" target="_blank" rel="noopener noreferrer">
+            <img src="../assets/icons/apple.png" alt="" width="24" height="24" /><span>App Store</span><span class="sr_only">새 탭</span>
+          </a>
+          <a class="trial_store_btn" href="https://play.google.com/store/apps/details?id=ie.zappy.fennec.fskorea&amp;hl=ko" target="_blank" rel="noopener noreferrer">
+            <img src="../assets/icons/playstore.png" alt="" width="24" height="24" /><span>Play Store</span><span class="sr_only">새 탭</span>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Shared footer -->
+<footer class="footer" id="footer">
+    <div class="footer_logo">
+      <img src="../assets/icons/logo.svg" alt="F45 Korea">
+      <span class="footer_logo_mobile_text" aria-hidden="true">F45 KOREA</span>
+    </div>
+    <div class="footer_social">
+      <span><img src="../assets/icons/utube.png" alt="유튜브" /></span>
+      <span><img src="../assets/icons/facebook.png" alt="페이스북" /></span>
+      <span><img src="../assets/icons/twitter.png" alt="트위터" /></span>
+      <span><img src="../assets/icons/instagram.png" alt="인스타그램" /></span>
+      <span><img src="../assets/icons/in.png" alt="링크드인" /></span>
+    </div>
+    <p class="footer_company">
+      대표자. 김예진, Maier Joseph Robert<br />
+      사업자등록번호. 811-86-01984
+    </p>
+    <div class="footer_links">
+      <span>개인정보 수집 및 이용 동의</span>
+      <span>이용약관</span>
+      <span class="is_bold">개인정보처리방침</span>
+    </div>
+    <p class="footer_copyright">F45 Korea @ 2026. All rights reserved.</p>
+  </footer>
+  <!-- End shared footer -->
+
+  <!-- Shared trial modal -->
+<div class="modal_overlay" id="trial_modal" role="dialog" aria-modal="true" aria-labelledby="trial_modal_title" hidden>
+    <div class="modal_card">
+      <button type="button" class="modal_close" id="trial_modal_close" aria-label="닫기">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p class="modal_eyebrow">체험권 신청</p>
+      <h2 class="modal_title" id="trial_modal_title">체험권은 앱에서<br />1분이면 신청 완료</h2>
+      <p class="modal_desc">F45 Korea 앱을 설치하고<br />가까운 지점에서 체험 수업을 예약해보세요.</p>
+      <div class="modal_store_buttons">
+        <a class="trial_store_btn" href="https://apps.apple.com/kr/app/f45-korea-new/id6751717648" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/icons/apple.png" alt="" />
+          <span>App Store</span>
+        </a>
+        <a class="trial_store_btn" href="https://play.google.com/store/apps/details?id=ie.zappy.fennec.fskorea&hl=ko" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/icons/playstore.png" alt="" />
+          <span>Play Store</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- End shared trial modal -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/branch_data.js"></script>
+  <script src="../js/branch_detail.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/interactions.js"></script>
+</body>
+</html>

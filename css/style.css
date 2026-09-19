@@ -2528,17 +2528,8 @@ body.has_modal_open {
     padding-bottom: 0;
   }
 
-  .has_guide_reveal .guide_card_pin {
-    opacity: 0;
-  }
 
-  .has_guide_reveal.is_guide_reveal_ready .guide_card_pin {
-    transition: opacity 0.4s ease-out;
-  }
 
-  .has_guide_reveal .guide_card_pin.is_visible {
-    opacity: 1;
-  }
 
   .guide_card {
     position: relative;

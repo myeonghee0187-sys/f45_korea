@@ -1,110 +1,68 @@
 (function () {
   "use strict";
 
-  // 로그인 / 체험권 신청 안내 모달. GSAP이 로드돼 있으면 부드러운 등장·퇴장
-  // 애니메이션을 쓰고, 없거나 사용자가 모션 감소를 선호하면 즉시 열고 닫음.
+  // Trial information only: no purchase or reservation is submitted here.
   function initModals() {
-    var modals = document.querySelectorAll(".modal_overlay");
+    var modal = document.getElementById("trial_modal");
+    if (!modal) return;
+    var triggerElement = null;
+    var inertElements = [];
+    var closeButton = modal.querySelector(".modal_close");
+    var card = modal.querySelector(".modal_card");
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    if (modals.length === 0) {
-      return;
+    function closeModal() {
+      if (modal.hidden) return;
+      if (window.gsap) window.gsap.killTweensOf(card);
+      modal.hidden = true;
+      document.body.classList.remove("has_modal_open");
+      inertElements.forEach(function (element) { element.inert = false; });
+      inertElements = [];
+      if (triggerElement && triggerElement.isConnected) triggerElement.focus();
     }
 
-    var hasGsap = typeof window.gsap !== "undefined";
-    var isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var shouldAnimate = hasGsap && !isReducedMotion;
-
-    function openModal(modal, triggerEl) {
+    function handleOpenModal(event) {
+      event.preventDefault();
+      if (window.F45Auth) window.F45Auth.closeMenu();
+      triggerElement = event.currentTarget;
       modal.hidden = false;
-      modal.dataset.triggerId = triggerEl && triggerEl.id ? triggerEl.id : "";
       document.body.classList.add("has_modal_open");
-
-      var card = modal.querySelector(".modal_card");
-      var closeBtn = modal.querySelector(".modal_close");
-
-      if (shouldAnimate && card) {
-        gsap.set(modal, { opacity: 0 });
-        gsap.set(card, { opacity: 0, y: 16, scale: 0.96 });
-        gsap.to(modal, { opacity: 1, duration: 0.25, ease: "power2.out" });
-        gsap.to(card, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(1.6)" });
-      }
-
-      if (closeBtn) {
-        closeBtn.focus();
-      }
-    }
-
-    function closeModal(modal) {
-      var card = modal.querySelector(".modal_card");
-      var triggerId = modal.dataset.triggerId;
-
-      function finishClose() {
-        modal.hidden = true;
-        document.body.classList.remove("has_modal_open");
-
-        var trigger = triggerId ? document.getElementById(triggerId) : null;
-        if (trigger) {
-          trigger.focus();
-        }
-      }
-
-      if (shouldAnimate && card) {
-        gsap.to(card, { opacity: 0, y: 16, scale: 0.96, duration: 0.2, ease: "power1.in" });
-        gsap.to(modal, { opacity: 0, duration: 0.2, ease: "power1.in", onComplete: finishClose });
-      } else {
-        finishClose();
-      }
-    }
-
-    function isModalOpen(modal) {
-      return !modal.hidden;
-    }
-
-    modals.forEach(function (modal) {
-      var closeBtn = modal.querySelector(".modal_close");
-
-      if (closeBtn) {
-        closeBtn.addEventListener("click", function () {
-          closeModal(modal);
-        });
-      }
-
-      // 배경(오버레이) 클릭 시 닫기 — 카드 자체 클릭은 버블링으로 여기까지 안 옴
-      modal.addEventListener("click", function (event) {
-        if (event.target === modal) {
-          closeModal(modal);
-        }
+      inertElements = Array.from(document.body.children).filter(function (element) {
+        return element !== modal && !element.inert && !["SCRIPT", "STYLE"].includes(element.tagName);
       });
-    });
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key !== "Escape") {
-        return;
+      inertElements.forEach(function (element) { element.inert = true; });
+      if (window.gsap && !reducedMotion.matches && card) {
+        window.gsap.fromTo(card, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, clearProps: "opacity,transform" });
       }
-      modals.forEach(function (modal) {
-        if (isModalOpen(modal)) {
-          closeModal(modal);
-        }
-      });
-    });
+      if (closeButton) closeButton.focus();
+    }
 
-    function bindTrigger(triggerId, modalId) {
-      var trigger = document.getElementById(triggerId);
-      var modal = document.getElementById(modalId);
-
-      if (!trigger || !modal) {
-        return;
-      }
-
-      trigger.addEventListener("click", function (event) {
+    function handleModalKeydown(event) {
+      if (modal.hidden) return;
+      if (event.key === "Escape") {
         event.preventDefault();
-        openModal(modal, trigger);
-      });
+        closeModal();
+      } else if (event.key === "Tab") {
+        var items = Array.from(modal.querySelectorAll("button:not(:disabled), a[href], input:not(:disabled), [tabindex='0']")).filter(function (item) { return item.getClientRects().length > 0; });
+        var first = items[0];
+        var last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
     }
 
-    bindTrigger("login_trigger", "login_modal");
-    bindTrigger("hero_cta", "trial_modal");
-    bindTrigger("trial_cta", "trial_modal");
+    document.querySelectorAll("[data-modal-target='trial_modal'], #hero_cta, #trial_cta").forEach(function (trigger) {
+      trigger.addEventListener("click", handleOpenModal);
+    });
+    if (closeButton) closeButton.addEventListener("click", closeModal);
+    modal.addEventListener("click", function handleOverlayClick(event) { if (event.target === modal) closeModal(); });
+    document.addEventListener("keydown", handleModalKeydown);
+    reducedMotion.addEventListener("change", function handleMotionChange() {
+      if (reducedMotion.matches && window.gsap && card) {
+        window.gsap.killTweensOf(card);
+        window.gsap.set(card, { clearProps: "opacity,transform" });
+      }
+    });
   }
 
   document.addEventListener("DOMContentLoaded", initModals);
