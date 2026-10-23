@@ -58,7 +58,9 @@
       // Keep the bottom-anchored scale/fade. This only reads native scroll
       // position, so #section anchors retain their native targets.
       gsap.set(hero, { transformOrigin: "50% 100%", scale: 1, opacity: 1 });
-      var setScale = gsap.quickSetter(hero, "scale");
+      var setScaleX = gsap.quickSetter(hero, "scaleX");
+      var setScaleY = gsap.quickSetter(hero, "scaleY");
+      var setScale = function (value) { setScaleX(value); setScaleY(value); };
       var setOpacity = gsap.quickSetter(hero, "opacity");
 
       function updateHeroTransform() {
