@@ -1,6 +1,28 @@
 # F45 KOREA 프로젝트 현재 상태
 
-마지막 업데이트: 2026-10-21
+마지막 업데이트: 2026-10-27
+
+## 2026-10-27 — PHASE 요일 칩 및 기존 HERO overflow 개선 항목
+
+PHASE 카드 7개에 기존 순서대로 MON·TUE·WED·THU·FRI·SAT·SUN 표시를 추가했습니다. Figma `72oHwooCnVPMsvkz51KVHf`의 `2068:328`·`2001:517` 구조·스크린샷·변수·디자인 컨텍스트를 확인했습니다. 칩은 이미지 안쪽 좌상단 20px, Montserrat SemiBold 12px/1, padding 8px 20px, radius 20px이며 기존 색상·폰트 토큰을 재사용합니다. `pointer-events: none`과 z-index 2로 드래그·터치 및 Spotlight 가독성을 유지합니다.
+
+- 기능 커밋: `e085388e3e6172639a8e183cc7bd4c5d8f3713ae`
+- 코드 변경: `index.html`, `css/style.css`만 수정. 캐시된 이전 CSS가 재사용되지 않도록 홈의 CSS 버전 query를 갱신했습니다.
+- 기존 이미지·alt·프로그램명·설명·카드 크기·간격·둥근 모서리·가로 스크롤 폭·JavaScript는 유지했습니다. 별도 모바일 CSS와 라이브러리를 추가하지 않았습니다.
+- 360×800, 390×844, 430×932, 768×1024, 1024×1366, 1280×800, 1440×900, 1920×1080에서 7개 칩의 순서·위치·색상·폰트·padding·radius·이미지 내부 배치를 검증하고 스크린샷을 비교했습니다.
+- Desktop drag·wheel, 키보드 Tab/focus-visible·방향키, Spotlight, reduced motion, JavaScript 미사용 시 칩 표시를 확인했습니다. 360·390·430·768·1024px에서 Chromium CDP 터치 입력으로 양방향 스와이프를 확인했습니다. 실물 모바일·태블릿은 미검증입니다.
+- 검사 중 콘솔 오류·경고, 페이지 예외와 HTTP 400 이상 응답은 관찰되지 않았습니다. `git diff --check`를 통과했습니다.
+
+### 별도 개선 항목: 기존 HERO 확대 효과의 문서 가로 overflow
+
+**기존 문제로 확인했으며 이번 작업에서 수정하지 않았습니다.** 변경 전 main `a9b1145a4dd086e8239b47f5c20cc5b04653f025`의 HTML/CSS를 별도 로컬 서버에서 재현하고 요일 칩 적용 화면과 같은 브라우저·viewport·스크롤 위치에서 비교했습니다.
+
+- 재현: 768px 이상, 모션 감소 미사용 상태에서 PHASE까지 세로 스크롤하면 `js/scroll_animations.js`의 기존 HERO 확대가 `scale(1.15)`에 도달하며 문서 가로 폭이 늘어납니다.
+- 변경 전/후 `document.documentElement.scrollWidth`가 동일합니다: 360px→345px, 390px→375px, 430px→415px, 768px→809px, 1024px→1084px, 1280px→1360px, 1440px→1532px, 1920px→2048px. 검수 브라우저의 세로 스크롤바 폭이 반영된 값입니다.
+- 1920px에서 변경 전/후 모두 HERO transform은 `matrix(1.15, 0, 0, 1.15, 0, 0)`이며 HERO 우측은 약 2047.875px입니다. 칩 추가로 발생한 새 overflow가 아닙니다.
+- PHASE 카드·이미지·텍스트 영역 치수, 이미지 경로·alt·설명, radius, 행 간격·스크롤 폭도 8개 viewport에서 변경 전/후 동일합니다.
+- 후속 개선 목표: 기존 HERO 모션을 유지하면서 확대된 HERO의 페인팅 영역이 문서 가로 overflow를 만들지 않도록 처리하고, 세로 스크롤 전후·resize·reduced motion에서 다시 검수합니다. 구현은 별도 작업 범위입니다.
+- 사용자는 이 기존 문제를 이번 배포의 예외로 인정하고, 새 overflow·디자인 회귀가 없는 요일 칩 변경을 main에 Fast-forward 병합·Push하도록 승인했습니다.
 
 ## 2026-10-21 — HERO를 헤더와 함께 첫 화면 높이에 맞춤
 
