@@ -2112,15 +2112,8 @@ body.has_modal_open {
   }
 
   .logo img {
-    display: none;
-  }
-
-  .logo_mobile_text {
-    display: block;
-    font-family: var(--font-title);
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.5;
+    width: 64px;
+    height: auto;
   }
 
   .nav {
